@@ -58,6 +58,7 @@ Public Class Main
 		btnDownload.FlatAppearance.MouseOverBackColor = Color.DarkGreen
 		btnReset.FlatAppearance.MouseOverBackColor = Color.DarkOrange
 		btnFormats.FlatAppearance.MouseOverBackColor = Color.DarkOrchid
+		btnDownloads.FlatAppearance.MouseOverBackColor = Color.LightBlue
 		btnDownload.Enabled = False
 		cboSelect.Enabled = False
 		MenuStrip1.ForeColor = Color.White
@@ -102,6 +103,8 @@ Public Class Main
 			Dim strvalue = txtURL.Text
 			If CheckPlaylist(strvalue) Then
 				strvalue = GenerateCorretPlaylist(strvalue)
+				OutPuts(strSwitch)
+			Else
 				OutPuts(strSwitch)
 			End If
 
@@ -324,16 +327,20 @@ Public Class Main
 				switch = " --ignore-errors --format bestaudio --extract-audio --audio-format vorbis --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
 			Case "Download entire play list audio in best m4a format"
 				switch = " --ignore-errors --format bestaudio --extract-audio --audio-format aac --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
-			Case "Audio Only MP3"
-				switch = " --extract-audio --audio-format mp3 --audio-quality 0 "
+			Case "Best Audio Only(file type could vary)"
+				switch = " -f bestaudio "
+				'switch = " --extract-audio --audio-format mp3 --audio-quality 0 "
+			Case "aac Audio Only"
+				switch = " --extract-audio --audio-format aac --audio-quality 256 "
+			Case "vorbis Audio Only"
+				switch = " -f bestaudio -x "
 			Case "Best Quality Video & Audio(file format could vary)"
 				switch = " "
 			Case Else
 				Dim strINput As String() = cboSelect.Text.Split(CType(" ", Char()))
 				switch = " -f " & strINput(0) & " "
 		End Select
-
-
+		' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
 
 	End Sub
 
@@ -343,7 +350,9 @@ Public Class Main
 				Dim sOutput As String = GetInformation(" -F ")
 				'Dim sOutput As String = GetInformation(" -F ")
 				cboSelect.Items.Add("Best Quality Video & Audio(file format could vary)") ' next two lines place two items at the top on the drop list
-				cboSelect.Items.Add("Audio Only MP3")
+				cboSelect.Items.Add("Best Audio Only(file type could vary)")
+				cboSelect.Items.Add("aac Audio Only")
+				cboSelect.Items.Add("vorbis Audio Only")
 				Dim strINput As String() = sOutput.Split(CType(vbCrLf, Char())) ' Creates the new array to cycle through
 				cboSelect.MaxDropDownItems = strINput.Length
 				For i = 0 To strINput.Length - 1
@@ -505,6 +514,12 @@ Public Class Main
 
 	Private Sub BackgroundWorker1_RunWorkerCompleted(sender As Object, e As ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
 		AfterDL()
+	End Sub
+
+	Private Sub btnDownloads_Click(sender As Object, e As EventArgs) Handles btnDownloads.Click
+		Dim strUserName As String = Environment.UserName
+		Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\VDownloader")
+		Threading.Thread.Sleep(500) 'prevent double clicking and opening multiple instances
 	End Sub
 End Class
 

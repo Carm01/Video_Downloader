@@ -153,9 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +173,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Oxygen-Icons.org-Oxygen-Actions-go-down.ico" />
+    <None Include="Resources\folder-blue-open-icon.png" />
+    <None Include="Resources\folder-blue-open-icon1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
