@@ -241,9 +241,9 @@ Partial Class Main
 		Me.btnDownloads.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 		Me.btnDownloads.ForeColor = System.Drawing.Color.White
 		Me.btnDownloads.Image = Global.You_Tube_Downloader.My.Resources.Resources.folder_blue_open_icon
-		Me.btnDownloads.Location = New System.Drawing.Point(446, 177)
+		Me.btnDownloads.Location = New System.Drawing.Point(446, 162)
 		Me.btnDownloads.Name = "btnDownloads"
-		Me.btnDownloads.Size = New System.Drawing.Size(46, 34)
+		Me.btnDownloads.Size = New System.Drawing.Size(46, 47)
 		Me.btnDownloads.TabIndex = 13
 		Me.ToolTip1.SetToolTip(Me.btnDownloads, "Open Download Folder")
 		Me.btnDownloads.UseVisualStyleBackColor = False

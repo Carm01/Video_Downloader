@@ -169,6 +169,8 @@ Public Class Main
 
 			If text = "" Or text.Contains("webpage") Or text.Contains("Downloading") Then
 				'
+			ElseIf text.Contains("Make sure you are using the latest version") Then
+				MessageBox.Show("Please use the file menu and update youtube-dl.exe", "Update youtube-dl.exe", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
 			Else
 				Dim Progress() As String = text.Split(CChar(" "))
 
@@ -217,16 +219,20 @@ Public Class Main
 		For Each file As String In files
 			If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") And Not file.Contains(".xml") Then ' some of the formats were left in during testing of the apps and is harmless to leave in production
 				Dim filename As String = System.IO.Path.GetFileName(file)
-				Dim strRename As String = filename.Trim.Replace(" ", "_")
-				My.Computer.FileSystem.RenameFile(file, strRename) ' renames the file without spaces as that causes issues in the moving of the file
-				Dim strFilePath As String = "C:\Users\" & strUserName & "\Documents\VDownloader\"
-				My.Computer.FileSystem.MoveFile(strPath & "\" & strRename, strFilePath & strRename, True) 'moves file and if filename exists it overwrites it.
-				Dim strOrigionalName As String = strRename.Trim.Replace("_", " ") ' changes file name to original
-				If My.Computer.FileSystem.FileExists(strFilePath & strOrigionalName) Then
-					Continue For
-				Else
-					My.Computer.FileSystem.RenameFile(strFilePath & strRename, strOrigionalName)
-				End If
+				IDTAGS(filename, strPath)
+#Region "Old Code"
+				'Dim strRename As String = filename.Trim.Replace(" ", "_")
+				'My.Computer.FileSystem.RenameFile(file, strRename) ' renames the file without spaces as that causes issues in the moving of the file
+				'Dim strFilePath As String = "C:\Users\" & strUserName & "\Documents\VDownloader\"
+				'My.Computer.FileSystem.MoveFile(strPath & "\" & strRename, strFilePath & strRename, True) 'moves file and if filename exists it overwrites it.
+				'Dim strOrigionalName As String = strRename.Trim.Replace("_", " ") ' changes file name to original
+				'If My.Computer.FileSystem.FileExists(strFilePath & strOrigionalName) Then
+				'	Continue For
+				'Else
+				'	My.Computer.FileSystem.RenameFile(strFilePath & strRename, strOrigionalName)
+				'End If
+				My.Computer.FileSystem.DeleteFile(strPath & "\" & filename)
+#End Region
 			End If
 		Next
 	End Sub
@@ -382,9 +388,6 @@ Public Class Main
 		btnDownload.Enabled = True
 		btnFormats.Enabled = True
 	End Sub
-
-
-
 	Private Sub btnFormats_Click(sender As Object, e As EventArgs) Handles btnFormats.Click
 		lblPlayList.ResetText()
 		lblProgress.ResetText()
@@ -439,6 +442,9 @@ Public Class Main
 	Private Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
 		Dim strSupportFiles As String = "C:\Program Files\VDownload\Support\youtube-dl.exe" ' location of youtube-dl.exe
 		Dim strURL As String = txtURL.Text
+		If INput = " --version" Then
+			strURL = ""
+		End If
 		Dim oProcess As New Process()
 		Dim oStartInfo As New ProcessStartInfo(strSupportFiles, INput & strURL)
 		oStartInfo.UseShellExecute = False
@@ -486,11 +492,13 @@ Public Class Main
 	End Sub
 
 	Private Sub BackgroundWorker3_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker3.DoWork
+
 		lblPlayList.ResetText()
 		lblProgress.ResetText()
 		lblFinish.ResetText()
+
 		Try
-			lblPlayList.ResetText()
+
 			Dim sOutput As String = GetInformation(" --version").Trim()
 			Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your youtube-dl.exe?", "Youtube-dl Version", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -521,6 +529,50 @@ Public Class Main
 		Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\VDownloader")
 		Threading.Thread.Sleep(500) 'prevent double clicking and opening multiple instances
 	End Sub
+
+	Private Sub IDTAGS(ByVal SourceFile As String, ByVal FilePath As String) ' adds the video URL into the comment section
+
+		Dim strUrlValue = txtURL.Text
+		If CheckPlaylist(strUrlValue) Then
+			strUrlValue = GenerateCorretPlaylist(strUrlValue)
+		End If
+		strUrlValue = Chr(34) & strUrlValue & Chr(34)
+
+		Dim strUserName As String = Environment.UserName
+		Dim strFFilePath As String = "C:\Program Files\VDownload\Support\ffmpeg.exe"
+		strFFilePath = Chr(34) & strFFilePath & Chr(34)
+		Dim strSource As String = Chr(34) & FilePath & "\" & SourceFile & Chr(34)
+		Dim strDestination As String = Chr(34) & "C:\Users\" & strUserName & "\Documents\Vdownloader\" & SourceFile & Chr(34)
+		Dim strSwitch = " -i " & strSource & " -metadata comment=" & strUrlValue & " -codec copy " & strDestination & " -y"
+
+		psi = New ProcessStartInfo(strFFilePath, strSwitch)
+		Dim systemencoding As System.Text.Encoding
+		System.Text.Encoding.GetEncoding(Globalization.CultureInfo.CurrentUICulture.TextInfo.OEMCodePage)
+		With psi
+			.UseShellExecute = False
+			.RedirectStandardError = True
+			.RedirectStandardOutput = True
+			.RedirectStandardInput = True
+			.CreateNoWindow = True
+			.StandardOutputEncoding = systemencoding
+			.StandardErrorEncoding = systemencoding
+		End With
+		cmd = New Process With {.StartInfo = psi, .EnableRaisingEvents = True}
+		cmd.Start()
+		cmd.BeginOutputReadLine()
+		cmd.BeginErrorReadLine()
+
+		'ffmpeg.exe -i "C:\Users\Carm\Documents\VDownloader\Toriiann- Petite Ebony Toy Playing, Squirting In The Car.mp4" -metadata WWW="https://www.pornhub.com/view_video.php?viewkey=ph5d9e1c296826f" -codec copy "C:\Users\Carm\Documents\Vdownloader\test.mp4" -y
+
+		'ffmpeg -i "C:\Users\Carm\Documents\VDownloader\Toriiann- Petite Ebony Toy Playing, Squirting In The Car.mp4" -f ffmetadata C: \Users\Carm\Documents\Vdownloader\metadata.txt
+
+		'https://gist.github.com/eyecatchup/0757b3d8b989fe433979db2ea7d95a01
+		'https://wiki.multimedia.cx/index.php/FFmpeg_Metadata
+		'https://write.corbpie.com/adding-metadata-to-a-video-Or-audio-file-with-ffmpeg/
+		'https://gist.github.com/tayvano/6e2d456a9897f55025e25035478a3a50
+
+	End Sub
+
 End Class
 
 Public Class MyUtilities
@@ -554,4 +606,7 @@ Public Class MyRenderer
 		End Try
 
 	End Sub
+
 End Class
+
+
