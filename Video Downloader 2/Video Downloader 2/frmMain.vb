@@ -447,17 +447,8 @@ Public Class frmMain
         Else
             ' create a new instance of the add form
             Dim MainMenu As New frmMain_Menu
-
             ScreenPos = PointToScreen(New Point(0, 0)) ' gets current screen location
-            'Me.Hide() ' Hides main form
-
-            ' show the new form so any past data is not still on the from
-            ' frmMenu_Main.Show, Me
-
             frmMain_Menu.ShowDialog()
-            'Me.Show() ' Shows main form again
-            ' call the form load so the combo box refreshes with current date
-            'FrmGolfer_Load(sender, e)
 
         End If
     End Sub
