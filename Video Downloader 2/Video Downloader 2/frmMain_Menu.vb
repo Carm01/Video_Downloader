@@ -27,7 +27,8 @@
         Try
 
             Dim sOutput As String = GetInformation(" --version").Trim()
-            Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your youtube-dl.exe?", "Youtube-dl Version", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your youtube-dl.exe?",
+                                         "Youtube-dl Version", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
             If result = DialogResult.Yes Then
                 frmMain.btnSettings.Enabled = False

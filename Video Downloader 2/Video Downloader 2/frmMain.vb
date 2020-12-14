@@ -1,17 +1,23 @@
 ﻿Imports System.Text.RegularExpressions
+Imports System.Threading
 
 Public Class frmMain
     Dim mouseDwn As Boolean
     Dim mousex As Integer = 0
     Dim mousey As Integer = 0
     Private Delegate Sub InvokeWithString(ByVal text As String)
-    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
+        AddHandler Application.ThreadException, AddressOf ApplicationOnThreadException
+        'AddHandler AppDomain.CurrentDomain.UnhandledException, CurrentDomainOnUnhandledException()
+
         CheckForIllegalCrossThreadCalls = False
         btnMinimize.FlatAppearance.MouseOverBackColor = Color.LightSlateGray
         btnClose.FlatAppearance.MouseOverBackColor = Color.Red
         btnDownload.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
         btnClear.FlatAppearance.MouseOverBackColor = Color.Orange
         btnFormat.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
+
         btnDownload.Enabled = False
         cboFormats.Enabled = False
         lblFormat.ResetText()
@@ -20,6 +26,20 @@ Public Class frmMain
         Me.Show()
         Application.DoEvents()
         txtURL.Focus()
+
+    End Sub
+
+    Private Sub CurrentDomainOnUnhandledException(sender As Object, e As UnhandledExceptionEventArgs)
+        Dim message = String.Format("Sorry, something went wrong." & vbCrLf & "{0}" & vbCrLf & "Please contact support.", (CType(e.ExceptionObject, Exception)).Message)
+        Console.WriteLine("ERROR {0}: {1}", DateTimeOffset.Now, e.ExceptionObject)
+        MessageBox.Show(message, "Unexpected Error")
+    End Sub
+
+
+    Private Sub ApplicationOnThreadException(sender As Object, e As ThreadExceptionEventArgs)
+        Dim message = String.Format("Sorry, something went wrong." & vbCrLf & "{0}" & vbCrLf & "Please contact support.", e.Exception.Message)
+        Console.WriteLine("ERROR {0}: {1}", DateTimeOffset.Now, e.Exception)
+        MessageBox.Show(message, "Unexpected Error")
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -30,20 +50,49 @@ Public Class frmMain
         Me.WindowState = FormWindowState.Minimized ' Window Minimize 
     End Sub
 
-    Private Sub Main_MouseDown(sender As Object, e As MouseEventArgs) Handles Panel1.MouseDown, MyBase.MouseDown, Label2.MouseDown, Label1.MouseDown, cboFormats.MouseDown, btnMulti.MouseDown, btnMinimize.MouseDown, btnFormat.MouseDown, btnDownload.MouseDown, btnClose.MouseDown, btnClear.MouseDown
+    Private Sub Main_MouseDown(sender As Object, e As MouseEventArgs) Handles Panel1.MouseDown, MyBase.MouseDown,
+        Label2.MouseDown,
+        Label1.MouseDown,
+        cboFormats.MouseDown,
+        btnMulti.MouseDown,
+        btnMinimize.MouseDown,
+        btnFormat.MouseDown,
+        btnDownload.MouseDown,
+        btnClose.MouseDown,
+        btnClear.MouseDown
         mouseDwn = True
         mousex = MousePosition.X - Me.Left
         mousey = MousePosition.Y - Me.Top
     End Sub
 
-    Private Sub Main_MouseMove(sender As Object, e As MouseEventArgs) Handles Panel1.MouseMove, MyBase.MouseMove, Label2.MouseMove, Label1.MouseMove, cboFormats.MouseMove, btnMulti.MouseMove, btnMinimize.MouseMove, btnFormat.MouseMove, btnDownload.MouseMove, btnClose.MouseMove, btnClear.MouseMove
+    Private Sub Main_MouseMove(sender As Object, e As MouseEventArgs) Handles Panel1.MouseMove, MyBase.MouseMove,
+      Label2.MouseMove,
+      Label1.MouseMove,
+      cboFormats.MouseMove,
+      btnMulti.MouseMove,
+      btnMinimize.MouseMove,
+      btnFormat.MouseMove,
+      btnDownload.MouseMove,
+      btnClose.MouseMove,
+      btnClear.MouseMove
+
         If mouseDwn Then
             Me.Top = MousePosition.Y - mousey
             Me.Left = MousePosition.X - mousex
         End If
     End Sub
 
-    Private Sub Main_MouseUp(sender As Object, e As MouseEventArgs) Handles Panel1.MouseUp, MyBase.MouseUp, Label2.MouseUp, Label1.MouseUp, cboFormats.MouseUp, btnMulti.MouseUp, btnMinimize.MouseUp, btnFormat.MouseUp, btnDownload.MouseUp, btnClose.MouseUp, btnClear.MouseUp
+    Private Sub Main_MouseUp(sender As Object, e As MouseEventArgs) Handles Panel1.MouseUp, MyBase.MouseUp,
+        Label2.MouseUp,
+        Label1.MouseUp,
+        cboFormats.MouseUp,
+        btnMulti.MouseUp,
+        btnMinimize.MouseUp,
+        btnFormat.MouseUp,
+        btnDownload.MouseUp,
+        btnClose.MouseUp,
+        btnClear.MouseUp
+
         mouseDwn = False
     End Sub
 
@@ -57,7 +106,8 @@ Public Class frmMain
             URL = txtURL.Text
             Return True
         Else
-            MessageBox.Show("URL must begin with http:, https:, or www.", "URL Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            MessageBox.Show("URL must begin with http:, https:, or www.", "URL Input Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             txtURL.Focus()
             txtURL.BackColor = Color.Yellow
             Return False
@@ -76,7 +126,8 @@ Public Class frmMain
     End Function
     Private Function ValidateSelect() As Boolean
         If cboFormats.Text = "" Then
-            MessageBox.Show("You must choose an Output", "OutPut Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            MessageBox.Show("You must choose an Output", "OutPut Selection Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             cboFormats.BackColor = Color.Yellow
             cboFormats.Focus()
             Return False
@@ -109,7 +160,8 @@ Public Class frmMain
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
                 Dim sOutput As String = GetInformation(" -F ")
                 'Dim sOutput As String = GetInformation(" -F ")
-                cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)") ' next two lines place two items at the top on the drop list
+                'next two lines place two items at the top on the drop list
+                cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)")
                 cboFormats.Items.Add("Best Audio Only(file type could vary)")
                 cboFormats.Items.Add("aac Audio Only")
                 cboFormats.Items.Add("vorbis Audio Only")
@@ -207,7 +259,8 @@ Public Class frmMain
             Dim strSwitch As String = ""
             Dim strFFilePath As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
             strFFilePath = Chr(34) & strFFilePath & Chr(34)
-            'Dim strvalue = "some video link" ' used for testing ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
+            'Dim strvalue = "some video link" ' used for testing 
+            ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
             If CheckPlaylist(strvalue) Then
                 strvalue = GenerateCorretPlaylist(strvalue)
@@ -272,8 +325,8 @@ Public Class frmMain
     End Function
     Private Sub OutPuts(ByRef switch As String)
         ' Choose switch based off of pull down
-
-        ' best video and audio in mp4 always = https://www.reddit.com/r/youtubedl/comments/f2dtlm/why_is_my_youtube_dl_downloading_videos_as_an_mkv/
+        ' best video and audio in mp4 always = 
+        'https://www.reddit.com/r/youtubedl/comments/f2dtlm/why_is_my_youtube_dl_downloading_videos_as_an_mkv/
         '	switch = " --extract-audio --audio-format mp3 --audio-quality 0 " 
         ' https://gist.github.com/mazzzystar/c86367b1ed95abb5cde2a4d4792e2dfd
 
@@ -283,11 +336,14 @@ Public Class frmMain
             Case "Download entire play list in best webm format"
                 switch = " -i -f webm --yes-playlist "
             Case "Download entire play list audio in best mp3 format"
-                switch = " --ignore-errors --format bestaudio --extract-audio --audio-format mp3 --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
+                switch = " --ignore-errors --format bestaudio --extract-audio --audio-format mp3" _
+                    & " --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
             Case "Download entire play list audio in best ogg format"
-                switch = " --ignore-errors --format bestaudio --extract-audio --audio-format vorbis --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
+                switch = " --ignore-errors --format bestaudio --extract-audio --audio-format vorbis" _
+                    & " --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
             Case "Download entire play list audio in best m4a format"
-                switch = " --ignore-errors --format bestaudio --extract-audio --audio-format aac --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
+                switch = " --ignore-errors --format bestaudio --extract-audio --audio-format aac" _
+                    & " --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
             Case "Best Audio Only(file type could vary)"
                 switch = " -f bestaudio "
                 'switch = " --extract-audio --audio-format mp3 --audio-quality 0 "
@@ -328,11 +384,16 @@ Public Class frmMain
                 Dim Progress() As String = text.Split(CChar(" "))
 
                 If Progress.Length >= 9 And Progress.Length < 10 Then
-                    lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) & " " & Progress(4) & " " & Progress(5) & " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
+                    lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
+                        & Progress(3) & " " & Progress(4) & " " & Progress(5) _
+                        & " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
                 ElseIf Progress.Length = 10 Then
-                    lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) & " " & Progress(4) & " " & Progress(5) & " " & Progress(6) & " " & Progress(7) & " " & Progress(8) & " " & Progress(9) ' already downloaded
+                    lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
+                        & " " & Progress(4) & " " & Progress(5) & " " & Progress(6) & " " _
+                        & Progress(7) & " " & Progress(8) & " " & Progress(9) ' already downloaded
                 ElseIf Progress.Length = 6 Then
-                    lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) & " " & Progress(4) & " " & Progress(5) ' completed @100%
+                    lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
+                        & " " & Progress(4) & " " & Progress(5) ' completed @100%
                 Else
                     'lblOutput.Text = text
                 End If
@@ -355,7 +416,9 @@ Public Class frmMain
         Dim strUserName As String = Environment.UserName
         CheckDestPath() ' checks for destination folder exists
         For Each file As String In files
-            If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") And Not file.Contains(".xml") And Not file.Contains(".part") Then ' some of the formats were left in during testing of the apps and is harmless to leave in production
+            ' some of the formats were left in during testing of the apps and is harmless to leave in production
+            If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") _
+                And Not file.Contains(".xml") And Not file.Contains(".part") Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
                 IDTAGS(filename, strPath)
             End If
@@ -409,7 +472,9 @@ Public Class frmMain
         Dim strPath As String = My.Application.Info.DirectoryPath
         Dim files() As String = IO.Directory.GetFiles(strPath, "*.*", IO.SearchOption.AllDirectories)
         For Each file As String In files
-            If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") And Not file.Contains(".xml") Then ' some of the formats were left in during testing of the apps and is harmless to leave in production
+            ' some of the formats were left in during testing of the apps and is harmless to leave in production
+            If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") _
+                And Not file.Contains(".xml") Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
                 Threading.Thread.Sleep(50)
                 My.Computer.FileSystem.DeleteFile(strPath & "\" & filename)
@@ -443,7 +508,6 @@ Public Class frmMain
             Dim MainMenu As New frmMain_Menu
             ScreenPos = PointToScreen(New Point(0, 0)) ' gets current screen location
             frmMain_Menu.ShowDialog()
-
         End If
     End Sub
 End Class
