@@ -1,14 +1,15 @@
 ﻿Module Common
     Public ScreenPos As Point
+    Public strURL1 As String = frmMain.txtURL.Text
 
     Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
-        Dim strSupportFiles As String = "C:\Program Files\VDownload\Support\youtube-dl.exe" ' location of youtube-dl.exe
-        Dim strURL As String = frmMain.txtURL.Text
+        Dim strSupportFiles As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of youtube-dl.exe
+        'Dim strURL As String = txtURL.Text
         If INput = " --version" Then
-            strURL = ""
+            strURL1 = ""
         End If
         Dim oProcess As New Process()
-        Dim oStartInfo As New ProcessStartInfo(strSupportFiles, INput & strURL)
+        Dim oStartInfo As New ProcessStartInfo(strSupportFiles, INput & strURL1)
         oStartInfo.UseShellExecute = False
         oStartInfo.RedirectStandardOutput = True
         Dim ShowWindow As Boolean = False

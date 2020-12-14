@@ -52,7 +52,6 @@ Public Class frmMain
     End Sub
 
     Private Function ValidateURL(ByRef URL As String) As Boolean
-
         If URL.StartsWith("https:") Or URL.StartsWith("www.") Or URL.StartsWith("http:") Then
             txtURL.BackColor = Color.White
             URL = txtURL.Text
@@ -65,7 +64,6 @@ Public Class frmMain
         End If
     End Function
     Private Function ValidateAll(ByRef URL As String) As Boolean
-
         If ValidateURL(URL) = True Then
             If ValidateSelect() = True Then
                 Return True
@@ -75,9 +73,7 @@ Public Class frmMain
         Else
             Return False
         End If
-
     End Function
-
     Private Function ValidateSelect() As Boolean
         If cboFormats.Text = "" Then
             MessageBox.Show("You must choose an Output", "OutPut Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
@@ -108,6 +104,7 @@ Public Class frmMain
     End Sub
 
     Private Sub bckGetFormats_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bckGetFormats.DoWork
+        strURL1 = txtURL.Text.Trim()
         Try
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
                 Dim sOutput As String = GetInformation(" -F ")
@@ -182,7 +179,6 @@ Public Class frmMain
             lblPlayList.ResetText()
             lblProgress.ResetText()
         End If
-
     End Sub
 
     Private Sub btnDownload_Click(sender As Object, e As EventArgs) Handles btnDownload.Click
@@ -209,7 +205,7 @@ Public Class frmMain
             Dim cmd As Process
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
-            Dim strFFilePath As String = "C:\Program Files\VDownload\Support\youtube-dl.exe" ' location of support files
+            Dim strFFilePath As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
             strFFilePath = Chr(34) & strFFilePath & Chr(34)
             'Dim strvalue = "some video link" ' used for testing ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
@@ -222,7 +218,7 @@ Public Class frmMain
 
             'https://social.msdn.microsoft.com/Forums/en-US/89feb938-9ed4-4343-a9ec-61080b05acb4/vbnet-running-batch-file-direct-and-get-output?forum=vbgeneral' misc reference
             psi = New ProcessStartInfo(strFFilePath, strSwitch & strvalue)
-            Dim systemencoding As System.Text.Encoding
+            Dim systemencoding As System.Text.Encoding = Nothing
             System.Text.Encoding.GetEncoding(Globalization.CultureInfo.CurrentUICulture.TextInfo.OEMCodePage)
             With psi
                 .UseShellExecute = False
@@ -368,8 +364,8 @@ Public Class frmMain
 
     Private Sub CheckDestPath()
         Dim strUserName As String = Environment.UserName
-        If Not My.Computer.FileSystem.DirectoryExists("C:\Users\" & strUserName & "\Documents\VDownloader\") Then
-            My.Computer.FileSystem.CreateDirectory("C:\Users\" & strUserName & "\Documents\VDownloader\")
+        If Not My.Computer.FileSystem.DirectoryExists("C:\Users\" & strUserName & "\Documents\Media Downloader\") Then
+            My.Computer.FileSystem.CreateDirectory("C:\Users\" & strUserName & "\Documents\Media Downloader\")
         End If
     End Sub
     Private Sub IDTAGS(ByVal SourceFile As String, ByVal FilePath As String) ' adds the video URL into the comment section
@@ -383,14 +379,14 @@ Public Class frmMain
         strUrlValue = Chr(34) & strUrlValue & Chr(34)
 
         Dim strUserName As String = Environment.UserName
-        Dim strFFilePath As String = "C:\Program Files\VDownload\Support\ffmpeg.exe"
+        Dim strFFilePath As String = "C:\ProgramData\Media Tools\ffmpeg.exe"
         strFFilePath = Chr(34) & strFFilePath & Chr(34)
         Dim strSource As String = Chr(34) & FilePath & "\" & SourceFile & Chr(34)
-        Dim strDestination As String = Chr(34) & "C:\Users\" & strUserName & "\Documents\Vdownloader\" & SourceFile & Chr(34)
+        Dim strDestination As String = Chr(34) & "C:\Users\" & strUserName & "\Documents\Media Downloader\" & SourceFile & Chr(34)
         Dim strSwitch = " -i " & strSource & " -metadata comment=" & strUrlValue & " -codec copy " & strDestination & " -y"
 
         psi = New ProcessStartInfo(strFFilePath, strSwitch)
-        Dim systemencoding As System.Text.Encoding
+        Dim systemencoding As System.Text.Encoding = Nothing
         System.Text.Encoding.GetEncoding(Globalization.CultureInfo.CurrentUICulture.TextInfo.OEMCodePage)
         With psi
             .UseShellExecute = False
@@ -419,7 +415,6 @@ Public Class frmMain
                 My.Computer.FileSystem.DeleteFile(strPath & "\" & filename)
             End If
         Next
-
     End Sub
 
     Public Sub KillHungProcess(processName As String)
@@ -432,12 +427,11 @@ Public Class frmMain
         psi.WindowStyle = ProcessWindowStyle.Hidden
         p.StartInfo = psi
         p.Start()
-
     End Sub
 
     Private Sub btnShowDownloads_Click(sender As Object, e As EventArgs) Handles btnShowDownloads.Click
         Dim strUserName As String = Environment.UserName
-        Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\VDownloader")
+        Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\Media Downloader")
         Threading.Thread.Sleep(500) 'prevent double clicking and opening multiple instances
     End Sub
 
