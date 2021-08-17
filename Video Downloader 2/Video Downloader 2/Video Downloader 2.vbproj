@@ -115,6 +115,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Module1.vb" />
+    <Compile Include="frmMultiInput.Designer.vb">
+      <DependentUpon>frmMultiInput.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMultiInput.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -138,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain_Menu.resx">
       <DependentUpon>frmMain_Menu.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMultiInput.resx">
+      <DependentUpon>frmMultiInput.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

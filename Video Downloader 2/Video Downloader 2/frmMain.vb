@@ -95,7 +95,6 @@ Public Class frmMain
 
         mouseDwn = False
     End Sub
-
     Private Sub Main_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
         ControlPaint.DrawBorder(e.Graphics, Me.ClientRectangle, Color.FromArgb(255, 10, 10, 255), ButtonBorderStyle.Solid)
     End Sub
@@ -188,7 +187,6 @@ Public Class frmMain
         End Try
 
     End Sub
-
     Public Function RemoveMulitWhite(ByVal INput As String) As String
         Dim regex1 As New Text.RegularExpressions.Regex("[ ]{2,}", RegexOptions.Multiline)
         Dim result As String = regex1.Replace(INput, " ")
@@ -232,7 +230,6 @@ Public Class frmMain
             lblProgress.ResetText()
         End If
     End Sub
-
     Private Sub btnDownload_Click(sender As Object, e As EventArgs) Handles btnDownload.Click
         Dim strURL As String = txtURL.Text
         lblPlayList.ResetText()
@@ -302,7 +299,6 @@ Public Class frmMain
         cleanfolder()
 
     End Sub
-
     Private Sub EnableButtons()
         btnFormat.Enabled = True
         btnDownload.Enabled = True
@@ -360,8 +356,8 @@ Public Class frmMain
         ' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
     End Sub
     Private Sub Sync_Output(ByVal text As String)
-        'txtOutput.AppendText(text & Environment.NewLine)
-        'txtOutput.ScrollToCaret()
+        ' txtOutput.AppendText(text & Environment.NewLine)
+        ' txtOutput.ScrollToCaret()
         Try
             text = text.Trim()
             Dim blnPlaylist = False
@@ -378,8 +374,8 @@ Public Class frmMain
 
             If text = "" Or text.Contains("webpage") Or text.Contains("Downloading") Then
                 '
-                'ElseIf text.Contains("Make sure you are using the latest version; type  youtube-dl -U  to update") Then
-                'MessageBox.Show("Please use the file menu and update youtube-dl.exe", "Update youtube-dl.exe", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
+                ' ElseIf text.Contains("Make sure you are using the latest version; type  youtube-dl -U  to update") Then
+                ' MessageBox.Show("Please use the file menu and update youtube-dl.exe", "Update youtube-dl.exe", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
             Else
                 Dim Progress() As String = text.Split(CChar(" "))
 
@@ -395,7 +391,7 @@ Public Class frmMain
                     lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
                         & " " & Progress(4) & " " & Progress(5) ' completed @100%
                 Else
-                    'lblOutput.Text = text
+                    ' lblOutput.Text = text
                 End If
                 lblProgress.Text = lblProgress.Text.Trim()
             End If
@@ -424,7 +420,6 @@ Public Class frmMain
             End If
         Next
     End Sub
-
     Private Sub CheckDestPath()
         Dim strUserName As String = Environment.UserName
         If Not My.Computer.FileSystem.DirectoryExists("C:\Users\" & strUserName & "\Documents\Media Downloader\") Then
@@ -440,7 +435,6 @@ Public Class frmMain
             strUrlValue = GenerateCorretPlaylist(strUrlValue)
         End If
         strUrlValue = Chr(34) & strUrlValue & Chr(34)
-
         Dim strUserName As String = Environment.UserName
         Dim strFFilePath As String = "C:\ProgramData\Media Tools\ffmpeg.exe"
         strFFilePath = Chr(34) & strFFilePath & Chr(34)
@@ -466,7 +460,6 @@ Public Class frmMain
         cmd.BeginErrorReadLine()
         cmd.WaitForExit()
     End Sub
-
     Private Sub cleanfolder()
         ' Threading.Thread.Sleep(4100)
         Dim strPath As String = My.Application.Info.DirectoryPath
@@ -493,13 +486,11 @@ Public Class frmMain
         p.StartInfo = psi
         p.Start()
     End Sub
-
     Private Sub btnShowDownloads_Click(sender As Object, e As EventArgs) Handles btnShowDownloads.Click
         Dim strUserName As String = Environment.UserName
         Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\Media Downloader")
         Threading.Thread.Sleep(500) 'prevent double clicking and opening multiple instances
     End Sub
-
     Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
         If frmMain_Menu.Visible = True Then
             frmMain_Menu.Close()
@@ -509,5 +500,11 @@ Public Class frmMain
             ScreenPos = PointToScreen(New Point(0, 0)) ' gets current screen location
             frmMain_Menu.ShowDialog()
         End If
+    End Sub
+
+    Private Sub btnMulti_Click(sender As Object, e As EventArgs) Handles btnMulti.Click
+        Dim Multi As New frmMultiInput
+        ScreenPos = PointToScreen(New Point(0, 0)) ' gets current screen location
+        frmMultiInput.ShowDialog()
     End Sub
 End Class

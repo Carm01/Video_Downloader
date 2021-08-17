@@ -1,6 +1,7 @@
 ﻿Module Common
     Public ScreenPos As Point
     Public strURL1 As String = frmMain.txtURL.Text
+    Public strMulti As String = ""
 
     Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
         Dim strSupportFiles As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of youtube-dl.exe
