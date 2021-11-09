@@ -43,6 +43,7 @@ Partial Class frmMain
         Me.bckDownload = New System.ComponentModel.BackgroundWorker()
         Me.lblPlayList = New System.Windows.Forms.Label()
         Me.lblProgress = New System.Windows.Forms.Label()
+        Me.chkMaxResolution = New System.Windows.Forms.CheckBox()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -58,6 +59,7 @@ Partial Class frmMain
         '
         Me.btnSettings.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.btnSettings.BackgroundImage = Global.Video_Downloader2.My.Resources.Resources.Very_Basic_Settings_Filled_icon24x24
+        Me.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.btnSettings.FlatAppearance.BorderSize = 0
         Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSettings.ForeColor = System.Drawing.Color.White
@@ -73,7 +75,7 @@ Partial Class frmMain
         Me.btnDownload.BackColor = System.Drawing.Color.Gray
         Me.btnDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnDownload.ForeColor = System.Drawing.Color.White
-        Me.btnDownload.Location = New System.Drawing.Point(12, 223)
+        Me.btnDownload.Location = New System.Drawing.Point(12, 237)
         Me.btnDownload.Name = "btnDownload"
         Me.btnDownload.Size = New System.Drawing.Size(86, 27)
         Me.btnDownload.TabIndex = 2
@@ -112,7 +114,7 @@ Partial Class frmMain
         Me.btnFormat.BackColor = System.Drawing.Color.Gray
         Me.btnFormat.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnFormat.ForeColor = System.Drawing.Color.White
-        Me.btnFormat.Location = New System.Drawing.Point(215, 223)
+        Me.btnFormat.Location = New System.Drawing.Point(255, 237)
         Me.btnFormat.Name = "btnFormat"
         Me.btnFormat.Size = New System.Drawing.Size(111, 27)
         Me.btnFormat.TabIndex = 5
@@ -125,7 +127,7 @@ Partial Class frmMain
         Me.btnClear.BackColor = System.Drawing.Color.Gray
         Me.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnClear.ForeColor = System.Drawing.Color.White
-        Me.btnClear.Location = New System.Drawing.Point(513, 223)
+        Me.btnClear.Location = New System.Drawing.Point(513, 237)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(75, 27)
         Me.btnClear.TabIndex = 6
@@ -173,6 +175,7 @@ Partial Class frmMain
         Me.btnMulti.Text = "Multi"
         Me.ToolTip1.SetToolTip(Me.btnMulti, "Add Multiple video links ( NOT playlists )")
         Me.btnMulti.UseVisualStyleBackColor = False
+        Me.btnMulti.Visible = False
         '
         'Label2
         '
@@ -189,7 +192,7 @@ Partial Class frmMain
         Me.btnShowDownloads.BackColor = System.Drawing.Color.Gray
         Me.btnShowDownloads.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnShowDownloads.ForeColor = System.Drawing.Color.White
-        Me.btnShowDownloads.Location = New System.Drawing.Point(372, 223)
+        Me.btnShowDownloads.Location = New System.Drawing.Point(372, 237)
         Me.btnShowDownloads.Name = "btnShowDownloads"
         Me.btnShowDownloads.Size = New System.Drawing.Size(135, 27)
         Me.btnShowDownloads.TabIndex = 15
@@ -205,7 +208,7 @@ Partial Class frmMain
         '
         Me.lblFormat.AutoSize = True
         Me.lblFormat.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.lblFormat.Location = New System.Drawing.Point(12, 140)
+        Me.lblFormat.Location = New System.Drawing.Point(12, 139)
         Me.lblFormat.Name = "lblFormat"
         Me.lblFormat.Size = New System.Drawing.Size(82, 14)
         Me.lblFormat.TabIndex = 12
@@ -213,12 +216,13 @@ Partial Class frmMain
         '
         'bckDownload
         '
+        Me.bckDownload.WorkerSupportsCancellation = True
         '
         'lblPlayList
         '
         Me.lblPlayList.AutoSize = True
         Me.lblPlayList.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.lblPlayList.Location = New System.Drawing.Point(13, 165)
+        Me.lblPlayList.Location = New System.Drawing.Point(13, 164)
         Me.lblPlayList.Name = "lblPlayList"
         Me.lblPlayList.Size = New System.Drawing.Size(74, 14)
         Me.lblPlayList.TabIndex = 13
@@ -226,21 +230,32 @@ Partial Class frmMain
         '
         'lblProgress
         '
-        Me.lblProgress.AutoSize = True
+        Me.lblProgress.AutoEllipsis = True
         Me.lblProgress.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.lblProgress.Location = New System.Drawing.Point(13, 191)
+        Me.lblProgress.Location = New System.Drawing.Point(13, 188)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(85, 14)
+        Me.lblProgress.Size = New System.Drawing.Size(577, 43)
         Me.lblProgress.TabIndex = 14
         Me.lblProgress.Text = "Progress Label"
         '
+        'chkMaxResolution
+        '
+        Me.chkMaxResolution.AutoSize = True
+        Me.chkMaxResolution.Location = New System.Drawing.Point(113, 242)
+        Me.chkMaxResolution.Name = "chkMaxResolution"
+        Me.chkMaxResolution.Size = New System.Drawing.Size(115, 18)
+        Me.chkMaxResolution.TabIndex = 16
+        Me.chkMaxResolution.Text = "Get Best Quality"
+        Me.chkMaxResolution.UseVisualStyleBackColor = True
+        '
         'frmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 14.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(600, 267)
+        Me.ClientSize = New System.Drawing.Size(600, 276)
+        Me.Controls.Add(Me.chkMaxResolution)
         Me.Controls.Add(Me.btnShowDownloads)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.lblPlayList)
@@ -287,4 +302,5 @@ Partial Class frmMain
     Friend WithEvents lblProgress As Label
     Friend WithEvents btnShowDownloads As Button
     Friend WithEvents btnSettings As Button
+    Friend WithEvents chkMaxResolution As CheckBox
 End Class
