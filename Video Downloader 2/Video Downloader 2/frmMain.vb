@@ -5,7 +5,7 @@ Public Class frmMain
     Dim mouseDwn As Boolean
     Dim mousex As Integer = 0
     Dim mousey As Integer = 0
-    Private Delegate Sub InvokeWithString(ByVal text As String)
+    Public Delegate Sub InvokeWithString(ByVal text As String)
     Public Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
         AddHandler Application.ThreadException, AddressOf ApplicationOnThreadException
@@ -42,11 +42,11 @@ Public Class frmMain
         MessageBox.Show(message, "Unexpected Error")
     End Sub
 
-    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+    Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Close() ' closes form
     End Sub
 
-    Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
+    Private Sub BtnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
         Me.WindowState = FormWindowState.Minimized ' Window Minimize 
     End Sub
 
@@ -136,14 +136,16 @@ Public Class frmMain
         End If
     End Function
 
-    Private Sub btnFormat_Click(sender As Object, e As EventArgs) Handles btnFormat.Click
+    Private Sub BtnFormat_Click(sender As Object, e As EventArgs) Handles btnFormat.Click
         lblPlayList.ResetText()
         lblProgress.ResetText()
         lblFormat.ResetText()
         btnFormat.Enabled = False
         cboFormats.Items.Clear()
+        cboFormats.BackColor = Color.White
         cboFormats.Enabled = False
         btnDownload.Enabled = False
+        lblPlayList.Enabled = True
         txtURL.Text = txtURL.Text.Trim() ' removed leading and training white spaces
         Dim strURL As String = txtURL.Text
         If ValidateURL(strURL) = True Then
@@ -153,7 +155,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub bckGetFormats_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bckGetFormats.DoWork
+    Private Sub BckGetFormats_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bckGetFormats.DoWork
         strURL1 = txtURL.Text.Trim()
         Try
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
@@ -168,7 +170,7 @@ Public Class frmMain
                 cboFormats.MaxDropDownItems = strINput.Length
                 For i = 0 To strINput.Length - 1
                     Dim strNew As String = RemoveMulitWhite(strINput(i))
-                    If misc(strNew) = True Then Continue For
+                    If Misc(strNew) = True Then Continue For
                     cboFormats.Items.Add(strNew)
                 Next
             Else ' if it is a playlist then
@@ -179,8 +181,13 @@ Public Class frmMain
                 cboFormats.Items.Add("Download entire play list audio in best m4a format")
                 '
             End If
-
-            lblFormat.Text = "Formats retrieved, please select from the pull-down menu"
+            If chkMaxResolution.Checked Then
+                cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
+                lblFormat.Text = "Automatically selected Maximum Quality"
+                'MessageBox.Show("Text changed to: " + cboFormats.Text)
+            Else
+                lblFormat.Text = "Formats retrieved, please select from the pull-down menu"
+            End If
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
@@ -192,7 +199,7 @@ Public Class frmMain
         Dim result As String = regex1.Replace(INput, " ")
         Return result
     End Function
-    Private Function misc(ByVal switch As String) As Boolean ' removes drop down choices if contains or is
+    Private Function Misc(ByVal switch As String) As Boolean ' removes drop down choices if contains or is
         If switch = "" Then Return True
         If switch.Contains("vimeo") Then Return True
         If switch.Contains("resolution note") Then Return True
@@ -200,7 +207,7 @@ Public Class frmMain
         Return False
     End Function
 
-    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+    Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         cboFormats.SelectedIndex = -1
         txtURL.ResetText()
         txtURL.BackColor = Color.White
@@ -212,25 +219,38 @@ Public Class frmMain
         lblFormat.ResetText()
         ' KillHungProcess("youtube-dl.exe")
         txtURL.Focus()
+        'sMaxResolution()
+        lblPlayList.Enabled = True
     End Sub
 
-    Private Sub bckGetFormats_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bckGetFormats.RunWorkerCompleted
+    Private Sub BckGetFormats_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bckGetFormats.RunWorkerCompleted
         cboFormats.Enabled = True
         btnDownload.Enabled = True
         btnFormat.Enabled = True
+
     End Sub
 
-    Private Sub txtURL_TextChanged(sender As Object, e As EventArgs) Handles txtURL.TextChanged
+    Private Sub TxtURL_TextChanged(sender As Object, e As EventArgs) Handles txtURL.TextChanged
         If txtURL.IsHandleCreated Then
             txtURL.BackColor = Color.White
             cboFormats.BackColor = Color.White
-            btnDownload.Enabled = False
             cboFormats.Items.Clear()
             lblPlayList.ResetText()
             lblProgress.ResetText()
+            lblPlayList.Visible = True
         End If
     End Sub
-    Private Sub btnDownload_Click(sender As Object, e As EventArgs) Handles btnDownload.Click
+
+    Private Sub SMaxResolution()
+        If chkMaxResolution.Checked Then
+            btnDownload.Enabled = True
+            btnFormat.Enabled = False
+        Else
+            btnDownload.Enabled = False
+            btnFormat.Enabled = True
+        End If
+    End Sub
+    Private Sub BtnDownload_Click(sender As Object, e As EventArgs) Handles btnDownload.Click
         Dim strURL As String = txtURL.Text
         lblPlayList.ResetText()
         lblFormat.ResetText()
@@ -242,16 +262,16 @@ Public Class frmMain
             btnClear.Enabled = False
             bckDownload.RunWorkerAsync()
             lblProgress.Focus()
+            lblPlayList.Visible = True
         Else
             EnableButtons()
         End If
+
     End Sub
 
     Private Sub BckDownload_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bckDownload.DoWork
-
+        Dim strFileNAme As String = Nothing
         Try
-            Dim psi As ProcessStartInfo
-            Dim cmd As Process
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
             Dim strFFilePath As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
@@ -259,33 +279,34 @@ Public Class frmMain
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
-            If CheckPlaylist(strvalue) Then
-                strvalue = GenerateCorretPlaylist(strvalue)
+            strFileNAme = sGetFileName(strvalue).Trim()
+            ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
+            If strFileNAme.Contains(vbLf) Then
+                Dim strMultiFiles As String() = strFileNAme.Split(vbLf)
+                strFileNAme = GenerateFileName(strMultiFiles(0))
+                ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
+                lblPlayList.Visible = False
+                _RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
             Else
-                OutPuts(strSwitch)
+                strFileNAme = GenerateFileName(strFileNAme)
+                If CheckPlaylist(strvalue) Then
+                    strvalue = GenerateCorretPlaylist(strvalue)
+                    OutPuts(strSwitch)
+                Else
+                    OutPuts(strSwitch)
+                End If
+                'Dim gen = New MyDownloader()
+                _RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
             End If
 
+
+            ' This is how to invoke the command via a New Class
+            'Dim gen = New MyDownloader()
+            'gen.RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
+
+            ' https://tiny4k.com/video/playful-and-sultry
             'https://social.msdn.microsoft.com/Forums/en-US/89feb938-9ed4-4343-a9ec-61080b05acb4/vbnet-running-batch-file-direct-and-get-output?forum=vbgeneral' misc reference
-            psi = New ProcessStartInfo(strFFilePath, strSwitch & strvalue)
-            Dim systemencoding As System.Text.Encoding = Nothing
-            System.Text.Encoding.GetEncoding(Globalization.CultureInfo.CurrentUICulture.TextInfo.OEMCodePage)
-            With psi
-                .UseShellExecute = False
-                .RedirectStandardError = True
-                .RedirectStandardOutput = True
-                .RedirectStandardInput = True
-                .CreateNoWindow = True
-                .StandardOutputEncoding = systemencoding
-                .StandardErrorEncoding = systemencoding
-            End With
-            cmd = New Process With {.StartInfo = psi, .EnableRaisingEvents = True}
-            AddHandler cmd.ErrorDataReceived, AddressOf Async_Data_Received
-            AddHandler cmd.OutputDataReceived, AddressOf Async_Data_Received
-            cmd.Start()
-            cmd.BeginOutputReadLine()
-            cmd.BeginErrorReadLine()
-            cmd.WaitForExit()
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
@@ -293,29 +314,57 @@ Public Class frmMain
             EnableButtons()
         End Try
 
-        rename_Move()
-        lblProgress.Text = "Download completed: " & lblProgress.Text
+        Rename_Move(strFileNAme)
+        lblProgress.Text = "Download completed: " & strFileNAme
         EnableButtons()
-        cleanfolder()
+        'Cleanfolder()
+        Dim strPath As String = My.Application.Info.DirectoryPath
+        Dim strFileToDelete As String = strPath & "\" & strFileNAme
+        Try
+            Do
+                Threading.Thread.Sleep(50)
+                My.Computer.FileSystem.DeleteFile(strFileToDelete)
+            Loop Until Not System.IO.File.Exists(strFileToDelete)
+        Catch ex As Exception
+
+        End Try
 
     End Sub
+
+    ' GenerateFileName Function basically says if the file name lenght in characters then break it apart
+    Private Function GenerateFileName(ByVal FileName As String) As String
+        Dim strTempFIleName As String = Nothing
+        If FileName.Length > 200 Then
+            Dim strNewFilename As String() = FileName.Split("-")
+            strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
+            Return strTempFIleName.Replace(" ", "_")
+            'TF = True
+        Else
+            'TF = False
+            Return FileName.Replace(" ", "_")
+        End If
+    End Function
+
     Private Sub EnableButtons()
         btnFormat.Enabled = True
         btnDownload.Enabled = True
         btnClear.Enabled = True
+
     End Sub
-    Private Sub Async_Data_Received(ByVal sender As Object, ByVal e As DataReceivedEventArgs)
-        Me.Invoke(New InvokeWithString(AddressOf Sync_Output), e.Data)
+    Public Sub Async_Data_Received(ByVal sender As Object, ByVal e As DataReceivedEventArgs)
+        If Me.IsHandleCreated Then
+            Me.BeginInvoke(New InvokeWithString(AddressOf Sync_Output), e.Data)
+        End If
     End Sub
     Private Function CheckPlaylist(ByVal url As String) As Boolean
-        If txtURL.Text.Contains("&list=") Then
+        If url.Contains("&list=") Then
             Return True
         Else
             Return False
         End If
     End Function
     Private Function GenerateCorretPlaylist(ByVal url As String) As String
-        Dim strPlaylist() As String = txtURL.Text.Split(CChar("&"))
+        Dim strPlaylist() As String = url.Split(CChar("&"))
         Dim strPlaylist1 As String = Chr(34) & strPlaylist(0) & "&" & strPlaylist(1) & Chr(34)
         Return strPlaylist1
     End Function
@@ -355,7 +404,7 @@ Public Class frmMain
         End Select
         ' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
     End Sub
-    Private Sub Sync_Output(ByVal text As String)
+    Public Sub Sync_Output(ByVal text As String)
         ' txtOutput.AppendText(text & Environment.NewLine)
         ' txtOutput.ScrollToCaret()
         Try
@@ -402,24 +451,23 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub bckDownload_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bckDownload.RunWorkerCompleted ' runs after download is done
+    Private Sub BckDownload_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bckDownload.RunWorkerCompleted ' runs after download is done
     End Sub
 
-    Private Sub rename_Move()
+    Private Sub Rename_Move(ByVal sfile As String)
         Dim strPath As String = My.Application.Info.DirectoryPath
         Threading.Thread.Sleep(100)
         Dim files() As String = IO.Directory.GetFiles(strPath, "*.*", IO.SearchOption.AllDirectories)
         Dim strUserName As String = Environment.UserName
         CheckDestPath() ' checks for destination folder exists
         For Each file As String In files
-            ' some of the formats were left in during testing of the apps and is harmless to leave in production
-            If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") _
-                And Not file.Contains(".xml") And Not file.Contains(".part") Then
+            If file.Contains(sfile) Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
                 IDTAGS(filename, strPath)
             End If
         Next
     End Sub
+
     Private Sub CheckDestPath()
         Dim strUserName As String = Environment.UserName
         If Not My.Computer.FileSystem.DirectoryExists("C:\Users\" & strUserName & "\Documents\Media Downloader\") Then
@@ -460,7 +508,7 @@ Public Class frmMain
         cmd.BeginErrorReadLine()
         cmd.WaitForExit()
     End Sub
-    Private Sub cleanfolder()
+    Private Sub Cleanfolder()
         ' Threading.Thread.Sleep(4100)
         Dim strPath As String = My.Application.Info.DirectoryPath
         Dim files() As String = IO.Directory.GetFiles(strPath, "*.*", IO.SearchOption.AllDirectories)
@@ -469,8 +517,11 @@ Public Class frmMain
             If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") _
                 And Not file.Contains(".xml") Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
-                Threading.Thread.Sleep(50)
+                'Threading.Thread.Sleep(50)
                 My.Computer.FileSystem.DeleteFile(strPath & "\" & filename)
+                Do
+                    Threading.Thread.Sleep(50)
+                Loop Until Not My.Computer.FileSystem.FileExists(strPath & "\" & filename)
             End If
         Next
     End Sub
@@ -486,12 +537,12 @@ Public Class frmMain
         p.StartInfo = psi
         p.Start()
     End Sub
-    Private Sub btnShowDownloads_Click(sender As Object, e As EventArgs) Handles btnShowDownloads.Click
+    Private Sub BtnShowDownloads_Click(sender As Object, e As EventArgs) Handles btnShowDownloads.Click
         Dim strUserName As String = Environment.UserName
         Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\Media Downloader")
         Threading.Thread.Sleep(500) 'prevent double clicking and opening multiple instances
     End Sub
-    Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
+    Private Sub BtnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
         If frmMain_Menu.Visible = True Then
             frmMain_Menu.Close()
         Else
@@ -502,9 +553,75 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub btnMulti_Click(sender As Object, e As EventArgs) Handles btnMulti.Click
+    Private Sub BtnMulti_Click(sender As Object, e As EventArgs) Handles btnMulti.Click
         Dim Multi As New frmMultiInput
         ScreenPos = PointToScreen(New Point(0, 0)) ' gets current screen location
         frmMultiInput.ShowDialog()
     End Sub
+
+    'Private Sub chkMaxResolution_CheckedChanged(sender As Object, e As EventArgs) Handles chkMaxResolution.CheckedChanged
+    '    If chkMaxResolution.Checked Then
+    '        btnFormat.Enabled = False
+    '        btnDownload.Enabled = True
+    '    Else
+    '        btnFormat.Enabled = True
+    '        btnDownload.Enabled = False
+    '    End If
+
+    'End Sub
+
+    Private Sub _RunCommandCom(ByVal strFFilePath As String, ByVal strSwitch As String, ByVal strvalue As String, ByVal strFileNAme As String)
+        Dim psi As ProcessStartInfo
+        Dim cmd As Process
+        psi = New ProcessStartInfo(strFFilePath, strSwitch & strvalue & " -o " & strFileNAme)
+        Dim systemencoding As System.Text.Encoding = Nothing
+        System.Text.Encoding.GetEncoding(Globalization.CultureInfo.CurrentUICulture.TextInfo.OEMCodePage)
+        With psi
+            .UseShellExecute = False
+            .RedirectStandardError = True
+            .RedirectStandardOutput = True
+            .RedirectStandardInput = True
+            .CreateNoWindow = True
+            .StandardOutputEncoding = systemencoding
+            .StandardErrorEncoding = systemencoding
+        End With
+        cmd = New Process With {.StartInfo = psi, .EnableRaisingEvents = True}
+        AddHandler cmd.ErrorDataReceived, AddressOf Async_Data_Received
+        AddHandler cmd.OutputDataReceived, AddressOf Async_Data_Received
+        cmd.Start()
+        cmd.BeginOutputReadLine()
+        cmd.BeginErrorReadLine()
+        cmd.WaitForExit()
+
+    End Sub
+
 End Class
+
+'Public Class MyDownloader
+'    Public Delegate Sub InvokeWithString(ByVal text As String)
+'    Sub RunCommandCom(strFFilePath As String, strSwitch As String, strvalue As String, strFileNAme As String)
+'        Dim psi As ProcessStartInfo
+'        Dim cmd As Process
+'        psi = New ProcessStartInfo(strFFilePath, strSwitch & strvalue & " -o " & strFileNAme)
+'        Dim systemencoding As System.Text.Encoding = Nothing
+'        System.Text.Encoding.GetEncoding(Globalization.CultureInfo.CurrentUICulture.TextInfo.OEMCodePage)
+'        With psi
+'            .UseShellExecute = False
+'            .RedirectStandardError = True
+'            .RedirectStandardOutput = True
+'            .RedirectStandardInput = True
+'            .CreateNoWindow = True
+'            .StandardOutputEncoding = systemencoding
+'            .StandardErrorEncoding = systemencoding
+'        End With
+'        cmd = New Process With {.StartInfo = psi, .EnableRaisingEvents = True}
+'        AddHandler cmd.ErrorDataReceived, AddressOf frmMain.Async_Data_Received
+'        AddHandler cmd.OutputDataReceived, AddressOf frmMain.Async_Data_Received
+'        cmd.Start()
+'        cmd.BeginOutputReadLine()
+'        cmd.BeginErrorReadLine()
+'        cmd.WaitForExit()
+
+'    End Sub
+
+'End Class
