@@ -8,3 +8,9 @@ This is definatly not meant to replace youtube-dl.exe, just an alternate way to 
 The main repository is here: https://github.com/ytdl-org/youtube-dl
 
 If you need the youtube-dl.exe, you can get it here(from a link on the repository): https://yt-dl.org/latest/youtube-dl.exe
+
+
+November 11 2021
+I have decided to open up this project to the public. This little app was more a lesson in development. 
+You will FFMPEG to make this project work properly, which you can get here: https://ffmpeg.org/download.html
+Currently, all files in the zip need to be downloaded and placed in a folder here: "C:\ProgramData\Media Tools\" Also the youtube-dl.exe needs to be placed in the folder there too as well. 
