@@ -14,3 +14,8 @@ November 11 2021
 I have decided to open up this project to the public. This little app was more a lesson in development. 
 You will FFMPEG to make this project work properly, which you can get here: https://ffmpeg.org/download.html
 Currently, all files in the zip need to be downloaded and placed in a folder here: "C:\ProgramData\Media Tools\" Also the youtube-dl.exe needs to be placed in the folder there too as well. 
+
+This app has the ability to take long fileNames and condense them to a unique one, thus preventing videos from not downloading. It removes unicode characters from file names as well. 
+There are some sites that try to present 1 fideo as multiple videos of the same thing. In that case it uses the first name as all videos are exactly the same.
+
+There is a feature that I have not currently developed which is for multiple links, that will eventually be worked on; but feel free to contribute.
