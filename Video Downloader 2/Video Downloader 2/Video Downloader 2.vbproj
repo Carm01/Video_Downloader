@@ -187,7 +187,6 @@
     <None Include="Resources\Very-Basic-Settings-Filled-icon24x24.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Oxygen-Icons.org-Oxygen-Actions-media-playback-start.ico" />
     <Content Include="Pelfusion-Flat-Folder-Download-Folder.ico" />
   </ItemGroup>
   <ItemGroup>
