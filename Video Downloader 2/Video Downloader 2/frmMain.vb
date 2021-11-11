@@ -1,4 +1,5 @@
-﻿Imports System.Text.RegularExpressions
+﻿Option Strict On
+Imports System.Text.RegularExpressions
 Imports System.Threading
 
 Public Class frmMain
@@ -7,9 +8,7 @@ Public Class frmMain
     Dim mousey As Integer = 0
     Public Delegate Sub InvokeWithString(ByVal text As String)
     Public Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
         AddHandler Application.ThreadException, AddressOf ApplicationOnThreadException
-        'AddHandler AppDomain.CurrentDomain.UnhandledException, CurrentDomainOnUnhandledException()
 
         CheckForIllegalCrossThreadCalls = False
         btnMinimize.FlatAppearance.MouseOverBackColor = Color.LightSlateGray
@@ -160,7 +159,6 @@ Public Class frmMain
         Try
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
                 Dim sOutput As String = GetInformation(" -F ")
-                'Dim sOutput As String = GetInformation(" -F ")
                 'next two lines place two items at the top on the drop list
                 cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)")
                 cboFormats.Items.Add("Best Audio Only(file type could vary)")
@@ -184,7 +182,6 @@ Public Class frmMain
             If chkMaxResolution.Checked Then
                 cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
                 lblFormat.Text = "Automatically selected Maximum Quality"
-                'MessageBox.Show("Text changed to: " + cboFormats.Text)
             Else
                 lblFormat.Text = "Formats retrieved, please select from the pull-down menu"
             End If
@@ -217,7 +214,6 @@ Public Class frmMain
         lblPlayList.ResetText()
         lblProgress.ResetText()
         lblFormat.ResetText()
-        ' KillHungProcess("youtube-dl.exe")
         txtURL.Focus()
         'sMaxResolution()
         lblPlayList.Enabled = True
@@ -282,7 +278,7 @@ Public Class frmMain
             strFileNAme = sGetFileName(strvalue).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
-                Dim strMultiFiles As String() = strFileNAme.Split(vbLf)
+                Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
                 strFileNAme = GenerateFileName(strMultiFiles(0))
                 ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
@@ -305,7 +301,6 @@ Public Class frmMain
             'Dim gen = New MyDownloader()
             'gen.RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
 
-            ' https://tiny4k.com/video/playful-and-sultry
             'https://social.msdn.microsoft.com/Forums/en-US/89feb938-9ed4-4343-a9ec-61080b05acb4/vbnet-running-batch-file-direct-and-get-output?forum=vbgeneral' misc reference
 
         Catch ex As Exception
@@ -335,12 +330,10 @@ Public Class frmMain
     Private Function GenerateFileName(ByVal FileName As String) As String
         Dim strTempFIleName As String = Nothing
         If FileName.Length > 200 Then
-            Dim strNewFilename As String() = FileName.Split("-")
+            Dim strNewFilename As String() = FileName.Split(CChar("-"))
             strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
             Return strTempFIleName.Replace(" ", "_")
-            'TF = True
         Else
-            'TF = False
             Return FileName.Replace(" ", "_")
         End If
     End Function
@@ -405,8 +398,6 @@ Public Class frmMain
         ' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
     End Sub
     Public Sub Sync_Output(ByVal text As String)
-        ' txtOutput.AppendText(text & Environment.NewLine)
-        ' txtOutput.ScrollToCaret()
         Try
             text = text.Trim()
             Dim blnPlaylist = False
@@ -517,7 +508,6 @@ Public Class frmMain
             If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") _
                 And Not file.Contains(".xml") Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
-                'Threading.Thread.Sleep(50)
                 My.Computer.FileSystem.DeleteFile(strPath & "\" & filename)
                 Do
                     Threading.Thread.Sleep(50)
