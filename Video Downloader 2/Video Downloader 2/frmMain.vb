@@ -1,4 +1,7 @@
-﻿Imports System.Text.RegularExpressions
+﻿Option Strict On
+Option Explicit On
+
+Imports System.Text.RegularExpressions
 Imports System.Threading
 
 Public Class frmMain
@@ -277,7 +280,7 @@ Public Class frmMain
             strFileNAme = sGetFileName(strvalue).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
-                Dim strMultiFiles As String() = strFileNAme.Split(vbLf)
+                Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
                 strFileNAme = GenerateFileName(strMultiFiles(0))
                 ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
@@ -329,7 +332,7 @@ Public Class frmMain
     Private Function GenerateFileName(ByVal FileName As String) As String
         Dim strTempFIleName As String = Nothing
         If FileName.Length > 200 Then
-            Dim strNewFilename As String() = FileName.Split("-")
+            Dim strNewFilename As String() = FileName.Split(CChar("-"))
             strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
             Return strTempFIleName.Replace(" ", "_")
         Else
