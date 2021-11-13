@@ -34,8 +34,8 @@
                 frmMain.btnSettings.Enabled = False
                 frmMain.btnFormat.Enabled = False
                 btnUpdateYouTubeDL.Enabled = False
-                Dim strFFilePath As String = "C:\ProgramData\Media Tools\" ' location of support files
-                MyUtilities.RunCommandCom(strFFilePath & "youtube-dl.exe", " --update", False)
+                'Dim strFFilePath As String = "C:\ProgramData\Media Tools\" ' location of support files
+                MyUtilities.RunCommandCom(strYTDL, " --update", False)
                 Threading.Thread.Sleep(3000)
             Else
                 btnUpdateYouTubeDL.Enabled = True

@@ -1,7 +1,4 @@
-﻿Option Strict On
-Option Explicit On
-
-Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions
 Imports System.Threading
 
 Public Class frmMain
@@ -10,7 +7,9 @@ Public Class frmMain
     Dim mousey As Integer = 0
     Public Delegate Sub InvokeWithString(ByVal text As String)
     Public Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
         AddHandler Application.ThreadException, AddressOf ApplicationOnThreadException
+        'AddHandler AppDomain.CurrentDomain.UnhandledException, CurrentDomainOnUnhandledException()
 
         CheckForIllegalCrossThreadCalls = False
         btnMinimize.FlatAppearance.MouseOverBackColor = Color.LightSlateGray
@@ -161,6 +160,7 @@ Public Class frmMain
         Try
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
                 Dim sOutput As String = GetInformation(" -F ")
+                'Dim sOutput As String = GetInformation(" -F ")
                 'next two lines place two items at the top on the drop list
                 cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)")
                 cboFormats.Items.Add("Best Audio Only(file type could vary)")
@@ -184,6 +184,7 @@ Public Class frmMain
             If chkMaxResolution.Checked Then
                 cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
                 lblFormat.Text = "Automatically selected Maximum Quality"
+                'MessageBox.Show("Text changed to: " + cboFormats.Text)
             Else
                 lblFormat.Text = "Formats retrieved, please select from the pull-down menu"
             End If
@@ -216,6 +217,7 @@ Public Class frmMain
         lblPlayList.ResetText()
         lblProgress.ResetText()
         lblFormat.ResetText()
+        ' KillHungProcess("youtube-dl.exe")
         txtURL.Focus()
         'sMaxResolution()
         lblPlayList.Enabled = True
@@ -272,20 +274,20 @@ Public Class frmMain
         Try
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
-            Dim strFFilePath As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
-            strFFilePath = Chr(34) & strFFilePath & Chr(34)
+            'Dim strFFilePath As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
+            strYTDL = Chr(34) & strYTDL & Chr(34)
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
             strFileNAme = sGetFileName(strvalue).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
-                Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
+                Dim strMultiFiles As String() = strFileNAme.Split(vbLf)
                 strFileNAme = GenerateFileName(strMultiFiles(0))
                 ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
                 lblPlayList.Visible = False
-                _RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
+                _RunCommandCom(strYTDL, strSwitch, strvalue, strFileNAme)
             Else
                 strFileNAme = GenerateFileName(strFileNAme)
                 If CheckPlaylist(strvalue) Then
@@ -295,7 +297,7 @@ Public Class frmMain
                     OutPuts(strSwitch)
                 End If
                 'Dim gen = New MyDownloader()
-                _RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
+                _RunCommandCom(strYTDL, strSwitch, strvalue, strFileNAme)
             End If
 
 
@@ -303,6 +305,7 @@ Public Class frmMain
             'Dim gen = New MyDownloader()
             'gen.RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
 
+            ' https://tiny4k.com/video/playful-and-sultry
             'https://social.msdn.microsoft.com/Forums/en-US/89feb938-9ed4-4343-a9ec-61080b05acb4/vbnet-running-batch-file-direct-and-get-output?forum=vbgeneral' misc reference
 
         Catch ex As Exception
@@ -312,6 +315,7 @@ Public Class frmMain
         End Try
 
         Rename_Move(strFileNAme)
+
         lblProgress.Text = "Download completed: " & strFileNAme
         EnableButtons()
         'Cleanfolder()
@@ -328,11 +332,11 @@ Public Class frmMain
 
     End Sub
 
-    ' GenerateFileName Function basically says if the file name lenght in characters then break it apart
+    ' GenerateFileName Function basically says if the file name length in characters then break it apart
     Private Function GenerateFileName(ByVal FileName As String) As String
         Dim strTempFIleName As String = Nothing
         If FileName.Length > 200 Then
-            Dim strNewFilename As String() = FileName.Split(CChar("-"))
+            Dim strNewFilename As String() = FileName.Split("-")
             strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
             Return strTempFIleName.Replace(" ", "_")
         Else
@@ -400,7 +404,8 @@ Public Class frmMain
         ' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
     End Sub
     Public Sub Sync_Output(ByVal text As String)
-
+        ' txtOutput.AppendText(text & Environment.NewLine)
+        ' txtOutput.ScrollToCaret()
         Try
             text = text.Trim()
             Dim blnPlaylist = False
@@ -452,20 +457,21 @@ Public Class frmMain
         Dim strPath As String = My.Application.Info.DirectoryPath
         Threading.Thread.Sleep(100)
         Dim files() As String = IO.Directory.GetFiles(strPath, "*.*", IO.SearchOption.AllDirectories)
-        Dim strUserName As String = Environment.UserName
         CheckDestPath() ' checks for destination folder exists
         For Each file As String In files
             If file.Contains(sfile) Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
                 IDTAGS(filename, strPath)
+                My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
             End If
         Next
     End Sub
 
+
     Private Sub CheckDestPath()
-        Dim strUserName As String = Environment.UserName
-        If Not My.Computer.FileSystem.DirectoryExists("C:\Users\" & strUserName & "\Documents\Media Downloader\") Then
-            My.Computer.FileSystem.CreateDirectory("C:\Users\" & strUserName & "\Documents\Media Downloader\")
+
+        If Not My.Computer.FileSystem.DirectoryExists(strMediaLocation) Then
+            My.Computer.FileSystem.CreateDirectory(strMediaLocation)
         End If
     End Sub
     Private Sub IDTAGS(ByVal SourceFile As String, ByVal FilePath As String) ' adds the video URL into the comment section
@@ -477,11 +483,10 @@ Public Class frmMain
             strUrlValue = GenerateCorretPlaylist(strUrlValue)
         End If
         strUrlValue = Chr(34) & strUrlValue & Chr(34)
-        Dim strUserName As String = Environment.UserName
         Dim strFFilePath As String = "C:\ProgramData\Media Tools\ffmpeg.exe"
         strFFilePath = Chr(34) & strFFilePath & Chr(34)
         Dim strSource As String = Chr(34) & FilePath & "\" & SourceFile & Chr(34)
-        Dim strDestination As String = Chr(34) & "C:\Users\" & strUserName & "\Documents\Media Downloader\" & SourceFile & Chr(34)
+        Dim strDestination As String = Chr(34) & strMediaLocation & SourceFile & Chr(34)
         Dim strSwitch = " -i " & strSource & " -metadata comment=" & strUrlValue & " -codec copy " & strDestination & " -y"
 
         psi = New ProcessStartInfo(strFFilePath, strSwitch)
@@ -503,7 +508,7 @@ Public Class frmMain
         cmd.WaitForExit()
     End Sub
     Private Sub Cleanfolder()
-
+        ' Threading.Thread.Sleep(4100)
         Dim strPath As String = My.Application.Info.DirectoryPath
         Dim files() As String = IO.Directory.GetFiles(strPath, "*.*", IO.SearchOption.AllDirectories)
         For Each file As String In files
@@ -532,8 +537,7 @@ Public Class frmMain
         p.Start()
     End Sub
     Private Sub BtnShowDownloads_Click(sender As Object, e As EventArgs) Handles btnShowDownloads.Click
-        Dim strUserName As String = Environment.UserName
-        Process.Start("explorer.exe", "C:\Users\" & strUserName & "\Documents\Media Downloader")
+        Process.Start("explorer.exe", strMediaLocation)
         Threading.Thread.Sleep(500) 'prevent double clicking and opening multiple instances
     End Sub
     Private Sub BtnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
@@ -553,16 +557,6 @@ Public Class frmMain
         frmMultiInput.ShowDialog()
     End Sub
 
-    'Private Sub chkMaxResolution_CheckedChanged(sender As Object, e As EventArgs) Handles chkMaxResolution.CheckedChanged
-    '    If chkMaxResolution.Checked Then
-    '        btnFormat.Enabled = False
-    '        btnDownload.Enabled = True
-    '    Else
-    '        btnFormat.Enabled = True
-    '        btnDownload.Enabled = False
-    '    End If
-
-    'End Sub
 
     Private Sub _RunCommandCom(ByVal strFFilePath As String, ByVal strSwitch As String, ByVal strvalue As String, ByVal strFileNAme As String)
         Dim psi As ProcessStartInfo
@@ -588,6 +582,17 @@ Public Class frmMain
         cmd.WaitForExit()
 
     End Sub
+
+    'Private Sub chkMaxResolution_CheckedChanged(sender As Object, e As EventArgs) Handles chkMaxResolution.CheckedChanged
+    '    If chkMaxResolution.Checked Then
+    '        btnFormat.Enabled = False
+    '        btnDownload.Enabled = True
+    '    Else
+    '        btnFormat.Enabled = True
+    '        btnDownload.Enabled = False
+    '    End If
+
+    'End Sub
 
 End Class
 
