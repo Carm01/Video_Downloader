@@ -9,6 +9,7 @@ The main repository is here: https://github.com/ytdl-org/youtube-dl
 
 If you need the youtube-dl.exe, you can get it here(from a link on the repository): https://yt-dl.org/latest/youtube-dl.exe
 
+You can also try this active fork ( https://github.com/yt-dlp/yt-dlp/releases/tag/2021.11.10.1 ) of youtube-dl.exe as it looks like has not been updated in about 6 months
 
 November 11 2021
 I have decided to open up this project to the public. This little app was more a lesson in development. 
