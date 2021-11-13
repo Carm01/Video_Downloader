@@ -1,6 +1,6 @@
 ﻿Module Common
     Public ScreenPos As Point
-    Public strURL1 As String = frmMain.txtURL.Text
+    Public strURL1 As String = FrmMain.txtURL.Text
     Public strMulti As String = ""
     Public strYTDL As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
 
@@ -17,7 +17,7 @@
 
     End Function
 
-    Public Function sGetFileName(ByRef INput As String) As String ' gets information presented in command line output if needed
+    Public Function SGetFileName(ByRef INput As String) As String ' gets information presented in command line output if needed
         Dim sOutput As String = Info_(strYTDL, " --get-filename " & INput)
         Return sOutput
 

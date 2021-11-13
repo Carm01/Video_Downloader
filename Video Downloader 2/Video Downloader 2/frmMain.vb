@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Threading
 
-Public Class frmMain
+Public Class FrmMain
     Dim mouseDwn As Boolean
     Dim mousex As Integer = 0
     Dim mousey As Integer = 0
@@ -273,7 +273,7 @@ Public Class frmMain
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
-            strFileNAme = sGetFileName(strvalue).Trim()
+            strFileNAme = SGetFileName(strvalue).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
                 Dim strMultiFiles As String() = strFileNAme.Split(vbLf)

@@ -3,6 +3,6 @@
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.Automatic)
-        Application.Run(New frmMain)
+        Application.Run(New FrmMain)
     End Sub
 End Module
