@@ -8,7 +8,6 @@
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
 
     Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
-        'Dim strURL As String = txtURL.Text
         If INput = " --version" Then
             strURL1 = ""
         End If
