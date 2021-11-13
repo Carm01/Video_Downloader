@@ -41,7 +41,7 @@ Public Class FrmMain
     End Sub
 
     Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Close() ' closes form
+        Close()
     End Sub
 
     Private Sub BtnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
