@@ -1,6 +1,6 @@
 ﻿Public Class frmMain_Menu
 
-    Private Sub frmMain_Menu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FrmMain_Menu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Location = New Point(ScreenPos.X, ScreenPos.Y + 2) ' sets screen location to location of main form
         btnMenu.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
         btnUpdateYouTubeDL.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
@@ -19,9 +19,9 @@
     End Sub
 
     Private Sub bckUpdateYouTubeDL_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bckUpdateYouTubeDL.DoWork
-        frmMain.lblPlayList.ResetText()
-        frmMain.lblProgress.ResetText()
-        frmMain.lblFormat.ResetText()
+        FrmMain.lblPlayList.ResetText()
+        FrmMain.lblProgress.ResetText()
+        FrmMain.lblFormat.ResetText()
         btnUpdateYouTubeDL.Enabled = False
 
         Try
@@ -31,11 +31,10 @@
                                          "Youtube-dl Version", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
             If result = DialogResult.Yes Then
-                frmMain.btnSettings.Enabled = False
-                frmMain.btnFormat.Enabled = False
+                FrmMain.btnSettings.Enabled = False
+                FrmMain.btnFormat.Enabled = False
                 btnUpdateYouTubeDL.Enabled = False
-                Dim strFFilePath As String = "C:\ProgramData\Media Tools\" ' location of support files
-                MyUtilities.RunCommandCom(strFFilePath & "youtube-dl.exe", " --update", False)
+                MyUtilities.RunCommandCom(strYTDL, " --update", False)
                 Threading.Thread.Sleep(3000)
             Else
                 btnUpdateYouTubeDL.Enabled = True
@@ -46,12 +45,12 @@
     End Sub
 
     Private Sub bckUpdateYouTubeDL_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bckUpdateYouTubeDL.RunWorkerCompleted
-        frmMain.btnSettings.Enabled = True
-        frmMain.btnFormat.Enabled = True
-        frmMain.btnDownload.Enabled = True
+        FrmMain.btnSettings.Enabled = True
+        FrmMain.btnFormat.Enabled = True
+        FrmMain.btnDownload.Enabled = True
         btnUpdateYouTubeDL.Enabled = True
         btnUpdateYouTubeDL.Enabled = True
-        frmMain.lblProgress.Text = "Update Complete, please re-check your version"
+        FrmMain.lblProgress.Text = "Update Complete, please re-check your version"
     End Sub
 
     Private Sub frmMain_Menu_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
