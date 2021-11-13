@@ -7,9 +7,7 @@ Public Class frmMain
     Dim mousey As Integer = 0
     Public Delegate Sub InvokeWithString(ByVal text As String)
     Public Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
         AddHandler Application.ThreadException, AddressOf ApplicationOnThreadException
-        'AddHandler AppDomain.CurrentDomain.UnhandledException, CurrentDomainOnUnhandledException()
 
         CheckForIllegalCrossThreadCalls = False
         btnMinimize.FlatAppearance.MouseOverBackColor = Color.LightSlateGray
@@ -160,7 +158,6 @@ Public Class frmMain
         Try
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
                 Dim sOutput As String = GetInformation(" -F ")
-                'Dim sOutput As String = GetInformation(" -F ")
                 'next two lines place two items at the top on the drop list
                 cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)")
                 cboFormats.Items.Add("Best Audio Only(file type could vary)")
@@ -184,7 +181,6 @@ Public Class frmMain
             If chkMaxResolution.Checked Then
                 cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
                 lblFormat.Text = "Automatically selected Maximum Quality"
-                'MessageBox.Show("Text changed to: " + cboFormats.Text)
             Else
                 lblFormat.Text = "Formats retrieved, please select from the pull-down menu"
             End If
@@ -217,7 +213,6 @@ Public Class frmMain
         lblPlayList.ResetText()
         lblProgress.ResetText()
         lblFormat.ResetText()
-        ' KillHungProcess("youtube-dl.exe")
         txtURL.Focus()
         'sMaxResolution()
         lblPlayList.Enabled = True
@@ -274,7 +269,6 @@ Public Class frmMain
         Try
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
-            'Dim strFFilePath As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
             strYTDL = Chr(34) & strYTDL & Chr(34)
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
@@ -305,7 +299,6 @@ Public Class frmMain
             'Dim gen = New MyDownloader()
             'gen.RunCommandCom(strFFilePath, strSwitch, strvalue, strFileNAme)
 
-            ' https://tiny4k.com/video/playful-and-sultry
             'https://social.msdn.microsoft.com/Forums/en-US/89feb938-9ed4-4343-a9ec-61080b05acb4/vbnet-running-batch-file-direct-and-get-output?forum=vbgeneral' misc reference
 
         Catch ex As Exception
@@ -404,8 +397,7 @@ Public Class frmMain
         ' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
     End Sub
     Public Sub Sync_Output(ByVal text As String)
-        ' txtOutput.AppendText(text & Environment.NewLine)
-        ' txtOutput.ScrollToCaret()
+
         Try
             text = text.Trim()
             Dim blnPlaylist = False
@@ -508,7 +500,6 @@ Public Class frmMain
         cmd.WaitForExit()
     End Sub
     Private Sub Cleanfolder()
-        ' Threading.Thread.Sleep(4100)
         Dim strPath As String = My.Application.Info.DirectoryPath
         Dim files() As String = IO.Directory.GetFiles(strPath, "*.*", IO.SearchOption.AllDirectories)
         For Each file As String In files
@@ -516,7 +507,6 @@ Public Class frmMain
             If Not file.Contains(".exe") And Not file.Contains(".config") And Not file.Contains(".pdb") _
                 And Not file.Contains(".xml") Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
-                'Threading.Thread.Sleep(50)
                 My.Computer.FileSystem.DeleteFile(strPath & "\" & filename)
                 Do
                     Threading.Thread.Sleep(50)

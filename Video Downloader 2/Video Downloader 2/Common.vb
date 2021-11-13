@@ -8,7 +8,6 @@
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
 
     Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
-        ' Dim strSupportFiles As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of youtube-dl.exe
         'Dim strURL As String = txtURL.Text
         If INput = " --version" Then
             strURL1 = ""
@@ -19,7 +18,6 @@
     End Function
 
     Public Function sGetFileName(ByRef INput As String) As String ' gets information presented in command line output if needed
-        'Dim strSupportFiles As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of youtube-dl.exe
         Dim sOutput As String = Info_(strYTDL, " --get-filename " & INput)
         Return sOutput
 
