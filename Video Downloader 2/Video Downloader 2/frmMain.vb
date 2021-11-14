@@ -426,7 +426,7 @@ Public Class FrmMain
             Else
                 Dim Progress() As String = text.Split(CChar(" "))
 
-                If Progress.Length >= 9 And Progress.Length < 10 Then
+                If (Progress.Length >= 9 And Progress.Length < 10) Or Progress.Contains("(frag") Then
                     lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
                         & Progress(3) & " " & Progress(4) & " " & Progress(5) _
                         & " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
