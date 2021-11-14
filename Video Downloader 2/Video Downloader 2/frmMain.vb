@@ -21,6 +21,7 @@ Public Class FrmMain
         lblFormat.ResetText()
         lblPlayList.ResetText()
         lblProgress.ResetText()
+        GetApp() 'checks application string
         Me.Show()
         Application.DoEvents()
         txtURL.Focus()
@@ -269,7 +270,7 @@ Public Class FrmMain
         Try
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
-            strYTDL = Chr(34) & strYTDL & Chr(34)
+            Dim sstrYTDL As String = Chr(34) & strYTDL & Chr(34)
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
@@ -281,7 +282,7 @@ Public Class FrmMain
                 ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
                 lblPlayList.Visible = False
-                _RunCommandCom(strYTDL, strSwitch, strvalue, strFileNAme)
+                _RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
             Else
                 strFileNAme = GenerateFileName(strFileNAme)
                 If CheckPlaylist(strvalue) Then
@@ -329,8 +330,14 @@ Public Class FrmMain
     Private Function GenerateFileName(ByVal FileName As String) As String
         Dim strTempFIleName As String = Nothing
         If FileName.Length > 200 Then
-            Dim strNewFilename As String() = FileName.Split("-")
-            strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
+            If FileName.Contains("[") And FileName.Contains("]") Then
+                Dim strNewFileName As String = FileName.Split("[")(UBound(FileName.Split("["))).Replace("]", "") ' had to add this is if yt-dlp was added and renamed to youtube-dl.exe
+                strTempFIleName = strNewFileName.Trim()
+            Else
+                Dim strNewFilename As String() = FileName.Split("-")
+                strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
+            End If
+
             Return strTempFIleName.Replace(" ", "_")
         Else
             Return FileName.Replace(" ", "_")
@@ -454,7 +461,12 @@ Public Class FrmMain
             If file.Contains(sfile) Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
                 IDTAGS(filename, strPath)
-                My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
+                Try
+                    My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
+                Catch ex As Exception
+
+                End Try
+
             End If
         Next
     End Sub
