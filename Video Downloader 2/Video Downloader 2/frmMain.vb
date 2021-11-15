@@ -424,9 +424,13 @@ Public Class FrmMain
                 ' ElseIf text.Contains("Make sure you are using the latest version; type  youtube-dl -U  to update") Then
                 ' MessageBox.Show("Please use the file menu and update youtube-dl.exe", "Update youtube-dl.exe", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
             Else
+                If text.Contains("(frag") Then
+                    text = text.Remove(text.IndexOf("(")).Trim()
+                End If
+
                 Dim Progress() As String = text.Split(CChar(" "))
 
-                If (Progress.Length >= 9 And Progress.Length < 10) Or Progress.Contains("(frag") Then
+                If (Progress.Length >= 9 And Progress.Length < 10) Then
                     lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
                         & Progress(3) & " " & Progress(4) & " " & Progress(5) _
                         & " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
