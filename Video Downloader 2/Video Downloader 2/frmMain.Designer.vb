@@ -51,7 +51,7 @@ Partial Class FrmMain
         '
         Me.Panel1.Controls.Add(Me.btnSettings)
         Me.Panel1.Location = New System.Drawing.Point(1, 1)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(748, 32)
         Me.Panel1.TabIndex = 0
@@ -65,7 +65,7 @@ Partial Class FrmMain
         Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSettings.ForeColor = System.Drawing.Color.White
         Me.btnSettings.Location = New System.Drawing.Point(524, 1)
-        Me.btnSettings.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnSettings.Margin = New System.Windows.Forms.Padding(4)
         Me.btnSettings.Name = "btnSettings"
         Me.btnSettings.Size = New System.Drawing.Size(30, 30)
         Me.btnSettings.TabIndex = 16
@@ -78,7 +78,7 @@ Partial Class FrmMain
         Me.btnDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnDownload.ForeColor = System.Drawing.Color.White
         Me.btnDownload.Location = New System.Drawing.Point(15, 311)
-        Me.btnDownload.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnDownload.Margin = New System.Windows.Forms.Padding(4)
         Me.btnDownload.Name = "btnDownload"
         Me.btnDownload.Size = New System.Drawing.Size(108, 34)
         Me.btnDownload.TabIndex = 2
@@ -93,7 +93,7 @@ Partial Class FrmMain
         Me.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnMinimize.ForeColor = System.Drawing.Color.White
         Me.btnMinimize.Location = New System.Drawing.Point(560, 2)
-        Me.btnMinimize.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnMinimize.Margin = New System.Windows.Forms.Padding(4)
         Me.btnMinimize.Name = "btnMinimize"
         Me.btnMinimize.Size = New System.Drawing.Size(94, 29)
         Me.btnMinimize.TabIndex = 3
@@ -107,7 +107,7 @@ Partial Class FrmMain
         Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnClose.ForeColor = System.Drawing.Color.White
         Me.btnClose.Location = New System.Drawing.Point(654, 2)
-        Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnClose.Margin = New System.Windows.Forms.Padding(4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(94, 29)
         Me.btnClose.TabIndex = 4
@@ -120,7 +120,7 @@ Partial Class FrmMain
         Me.btnFormat.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnFormat.ForeColor = System.Drawing.Color.White
         Me.btnFormat.Location = New System.Drawing.Point(320, 311)
-        Me.btnFormat.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnFormat.Margin = New System.Windows.Forms.Padding(4)
         Me.btnFormat.Name = "btnFormat"
         Me.btnFormat.Size = New System.Drawing.Size(139, 34)
         Me.btnFormat.TabIndex = 5
@@ -134,7 +134,7 @@ Partial Class FrmMain
         Me.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnClear.ForeColor = System.Drawing.Color.White
         Me.btnClear.Location = New System.Drawing.Point(640, 311)
-        Me.btnClear.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnClear.Margin = New System.Windows.Forms.Padding(4)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(94, 34)
         Me.btnClear.TabIndex = 6
@@ -149,7 +149,7 @@ Partial Class FrmMain
         Me.cboFormats.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboFormats.FormattingEnabled = True
         Me.cboFormats.Location = New System.Drawing.Point(15, 132)
-        Me.cboFormats.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboFormats.Margin = New System.Windows.Forms.Padding(4)
         Me.cboFormats.Name = "cboFormats"
         Me.cboFormats.Size = New System.Drawing.Size(629, 25)
         Me.cboFormats.TabIndex = 7
@@ -157,7 +157,7 @@ Partial Class FrmMain
         'txtURL
         '
         Me.txtURL.Location = New System.Drawing.Point(15, 66)
-        Me.txtURL.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtURL.Margin = New System.Windows.Forms.Padding(4)
         Me.txtURL.Name = "txtURL"
         Me.txtURL.Size = New System.Drawing.Size(629, 26)
         Me.txtURL.TabIndex = 8
@@ -179,7 +179,7 @@ Partial Class FrmMain
         Me.btnMulti.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnMulti.ForeColor = System.Drawing.Color.White
         Me.btnMulti.Location = New System.Drawing.Point(652, 65)
-        Me.btnMulti.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnMulti.Margin = New System.Windows.Forms.Padding(4)
         Me.btnMulti.Name = "btnMulti"
         Me.btnMulti.Size = New System.Drawing.Size(69, 29)
         Me.btnMulti.TabIndex = 10
@@ -205,7 +205,7 @@ Partial Class FrmMain
         Me.btnShowDownloads.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnShowDownloads.ForeColor = System.Drawing.Color.White
         Me.btnShowDownloads.Location = New System.Drawing.Point(465, 311)
-        Me.btnShowDownloads.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnShowDownloads.Margin = New System.Windows.Forms.Padding(4)
         Me.btnShowDownloads.Name = "btnShowDownloads"
         Me.btnShowDownloads.Size = New System.Drawing.Size(169, 34)
         Me.btnShowDownloads.TabIndex = 15
@@ -250,7 +250,7 @@ Partial Class FrmMain
         Me.lblProgress.Location = New System.Drawing.Point(16, 235)
         Me.lblProgress.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(721, 54)
+        Me.lblProgress.Size = New System.Drawing.Size(721, 58)
         Me.lblProgress.TabIndex = 14
         Me.lblProgress.Text = "Progress Label"
         '
@@ -258,7 +258,7 @@ Partial Class FrmMain
         '
         Me.chkMaxResolution.AutoSize = True
         Me.chkMaxResolution.Location = New System.Drawing.Point(141, 317)
-        Me.chkMaxResolution.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.chkMaxResolution.Margin = New System.Windows.Forms.Padding(4)
         Me.chkMaxResolution.Name = "chkMaxResolution"
         Me.chkMaxResolution.Size = New System.Drawing.Size(136, 22)
         Me.chkMaxResolution.TabIndex = 16
@@ -292,7 +292,7 @@ Partial Class FrmMain
         Me.ForeColor = System.Drawing.Color.White
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "FrmMain"
         Me.Text = "Form1"
         Me.Panel1.ResumeLayout(False)

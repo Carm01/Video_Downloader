@@ -313,7 +313,7 @@ Public Class FrmMain
 
         Rename_Move(strFileNAme)
 
-        lblProgress.Text = "Download completed: " & strFileNAme
+        lblProgress.Text = "Download completed: " & strFileNAme.Replace("_", " ")
         EnableButtons()
         'Cleanfolder()
         Dim strPath As String = My.Application.Info.DirectoryPath
