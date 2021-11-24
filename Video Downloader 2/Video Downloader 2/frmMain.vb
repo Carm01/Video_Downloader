@@ -2,7 +2,6 @@
 Option Explicit On
 Imports System.Text.RegularExpressions
 Imports System.Threading
-
 Public Class FrmMain
     Dim mouseDwn As Boolean
     Dim mousex As Integer = 0
