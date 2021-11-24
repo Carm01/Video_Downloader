@@ -4,7 +4,7 @@ Module Common
     Public ScreenPos As Point
     Public strURL1 As String = FrmMain.txtURL.Text
     Public strMulti As String = ""
-    Public strYTDL As String = "C:\ProgramData\Media Tools\youtube-dl.exe" ' location of support files
+    Public strYTDL As String = String.Empty ' location of support files
 
     Public strPublicUserName As String = Environment.UserName
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
@@ -44,13 +44,13 @@ Module Common
     End Function
 
     Public Sub GetApp()
-        If My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\youtube-dl.exe") Then
-            strAppExe = "C:\ProgramData\Media Tools\youtube-dl.exe"
-            Exit Sub
-        ElseIf My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\yt-dlp.exe") Then
+        If My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\yt-dlp.exe") Then
             strAppExe = "C:\ProgramData\Media Tools\yt-dlp.exe"
             Exit Sub
-        Else
+        ElseIf My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\youtube-dl.exe") Then
+            strAppExe = "C:\ProgramData\Media Tools\youtube-dl.exe"
+                Exit Sub
+            Else
             MessageBox.Show("Please Make sure either:" & vbCrLf & "youtube-dl.exe or yt-dlp.exe are in the following directory:" & vbCrLf & "C:\ProgramData\Media Tools\")
         End If
     End Sub

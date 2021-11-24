@@ -24,6 +24,7 @@ Public Class FrmMain
         lblPlayList.ResetText()
         lblProgress.ResetText()
         GetApp() 'checks application string
+        strYTDL = strAppExe
         Me.Show()
         Application.DoEvents()
         txtURL.Focus()

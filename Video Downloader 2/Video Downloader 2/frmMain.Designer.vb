@@ -51,8 +51,9 @@ Partial Class FrmMain
         '
         Me.Panel1.Controls.Add(Me.btnSettings)
         Me.Panel1.Location = New System.Drawing.Point(1, 1)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(598, 26)
+        Me.Panel1.Size = New System.Drawing.Size(748, 32)
         Me.Panel1.TabIndex = 0
         '
         'btnSettings
@@ -63,9 +64,10 @@ Partial Class FrmMain
         Me.btnSettings.FlatAppearance.BorderSize = 0
         Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSettings.ForeColor = System.Drawing.Color.White
-        Me.btnSettings.Location = New System.Drawing.Point(419, 1)
+        Me.btnSettings.Location = New System.Drawing.Point(524, 1)
+        Me.btnSettings.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnSettings.Name = "btnSettings"
-        Me.btnSettings.Size = New System.Drawing.Size(24, 24)
+        Me.btnSettings.Size = New System.Drawing.Size(30, 30)
         Me.btnSettings.TabIndex = 16
         Me.ToolTip1.SetToolTip(Me.btnSettings, "Add Multiple video links ( NOT playlists )")
         Me.btnSettings.UseVisualStyleBackColor = False
@@ -75,9 +77,10 @@ Partial Class FrmMain
         Me.btnDownload.BackColor = System.Drawing.Color.Gray
         Me.btnDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnDownload.ForeColor = System.Drawing.Color.White
-        Me.btnDownload.Location = New System.Drawing.Point(12, 237)
+        Me.btnDownload.Location = New System.Drawing.Point(15, 311)
+        Me.btnDownload.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnDownload.Name = "btnDownload"
-        Me.btnDownload.Size = New System.Drawing.Size(86, 27)
+        Me.btnDownload.Size = New System.Drawing.Size(108, 34)
         Me.btnDownload.TabIndex = 2
         Me.btnDownload.Text = "Download"
         Me.ToolTip1.SetToolTip(Me.btnDownload, "Downloads your video")
@@ -89,9 +92,10 @@ Partial Class FrmMain
         Me.btnMinimize.FlatAppearance.BorderSize = 0
         Me.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnMinimize.ForeColor = System.Drawing.Color.White
-        Me.btnMinimize.Location = New System.Drawing.Point(448, 2)
+        Me.btnMinimize.Location = New System.Drawing.Point(560, 2)
+        Me.btnMinimize.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnMinimize.Name = "btnMinimize"
-        Me.btnMinimize.Size = New System.Drawing.Size(75, 23)
+        Me.btnMinimize.Size = New System.Drawing.Size(94, 29)
         Me.btnMinimize.TabIndex = 3
         Me.btnMinimize.Text = "Minimize"
         Me.btnMinimize.UseVisualStyleBackColor = False
@@ -102,9 +106,10 @@ Partial Class FrmMain
         Me.btnClose.FlatAppearance.BorderSize = 0
         Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnClose.ForeColor = System.Drawing.Color.White
-        Me.btnClose.Location = New System.Drawing.Point(523, 2)
+        Me.btnClose.Location = New System.Drawing.Point(654, 2)
+        Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(75, 23)
+        Me.btnClose.Size = New System.Drawing.Size(94, 29)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = False
@@ -114,9 +119,10 @@ Partial Class FrmMain
         Me.btnFormat.BackColor = System.Drawing.Color.Gray
         Me.btnFormat.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnFormat.ForeColor = System.Drawing.Color.White
-        Me.btnFormat.Location = New System.Drawing.Point(255, 237)
+        Me.btnFormat.Location = New System.Drawing.Point(320, 311)
+        Me.btnFormat.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnFormat.Name = "btnFormat"
-        Me.btnFormat.Size = New System.Drawing.Size(111, 27)
+        Me.btnFormat.Size = New System.Drawing.Size(139, 34)
         Me.btnFormat.TabIndex = 5
         Me.btnFormat.Text = "Get Formats"
         Me.ToolTip1.SetToolTip(Me.btnFormat, "Geta all available formats of your url")
@@ -127,9 +133,10 @@ Partial Class FrmMain
         Me.btnClear.BackColor = System.Drawing.Color.Gray
         Me.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnClear.ForeColor = System.Drawing.Color.White
-        Me.btnClear.Location = New System.Drawing.Point(513, 237)
+        Me.btnClear.Location = New System.Drawing.Point(640, 311)
+        Me.btnClear.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnClear.Name = "btnClear"
-        Me.btnClear.Size = New System.Drawing.Size(75, 27)
+        Me.btnClear.Size = New System.Drawing.Size(94, 34)
         Me.btnClear.TabIndex = 6
         Me.btnClear.Text = "Clear"
         Me.ToolTip1.SetToolTip(Me.btnClear, "Clears all inputs")
@@ -141,24 +148,27 @@ Partial Class FrmMain
         Me.cboFormats.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboFormats.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboFormats.FormattingEnabled = True
-        Me.cboFormats.Location = New System.Drawing.Point(12, 106)
+        Me.cboFormats.Location = New System.Drawing.Point(15, 132)
+        Me.cboFormats.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.cboFormats.Name = "cboFormats"
-        Me.cboFormats.Size = New System.Drawing.Size(504, 21)
+        Me.cboFormats.Size = New System.Drawing.Size(629, 25)
         Me.cboFormats.TabIndex = 7
         '
         'txtURL
         '
-        Me.txtURL.Location = New System.Drawing.Point(12, 53)
+        Me.txtURL.Location = New System.Drawing.Point(15, 66)
+        Me.txtURL.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtURL.Name = "txtURL"
-        Me.txtURL.Size = New System.Drawing.Size(504, 22)
+        Me.txtURL.Size = New System.Drawing.Size(629, 26)
         Me.txtURL.TabIndex = 8
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(13, 34)
+        Me.Label1.Location = New System.Drawing.Point(16, 42)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(28, 14)
+        Me.Label1.Size = New System.Drawing.Size(34, 18)
         Me.Label1.TabIndex = 9
         Me.Label1.Text = "URL"
         Me.ToolTip1.SetToolTip(Me.Label1, "url of Video, audio or playlist")
@@ -168,9 +178,10 @@ Partial Class FrmMain
         Me.btnMulti.BackColor = System.Drawing.Color.Gray
         Me.btnMulti.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnMulti.ForeColor = System.Drawing.Color.White
-        Me.btnMulti.Location = New System.Drawing.Point(522, 52)
+        Me.btnMulti.Location = New System.Drawing.Point(652, 65)
+        Me.btnMulti.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnMulti.Name = "btnMulti"
-        Me.btnMulti.Size = New System.Drawing.Size(55, 23)
+        Me.btnMulti.Size = New System.Drawing.Size(69, 29)
         Me.btnMulti.TabIndex = 10
         Me.btnMulti.Text = "Multi"
         Me.ToolTip1.SetToolTip(Me.btnMulti, "Add Multiple video links ( NOT playlists )")
@@ -180,9 +191,10 @@ Partial Class FrmMain
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(13, 89)
+        Me.Label2.Location = New System.Drawing.Point(16, 111)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(100, 14)
+        Me.Label2.Size = New System.Drawing.Size(122, 18)
         Me.Label2.TabIndex = 11
         Me.Label2.Text = "Available Formats"
         Me.ToolTip1.SetToolTip(Me.Label2, "Formats available for your selected video")
@@ -192,9 +204,10 @@ Partial Class FrmMain
         Me.btnShowDownloads.BackColor = System.Drawing.Color.Gray
         Me.btnShowDownloads.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnShowDownloads.ForeColor = System.Drawing.Color.White
-        Me.btnShowDownloads.Location = New System.Drawing.Point(372, 237)
+        Me.btnShowDownloads.Location = New System.Drawing.Point(465, 311)
+        Me.btnShowDownloads.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnShowDownloads.Name = "btnShowDownloads"
-        Me.btnShowDownloads.Size = New System.Drawing.Size(135, 27)
+        Me.btnShowDownloads.Size = New System.Drawing.Size(169, 34)
         Me.btnShowDownloads.TabIndex = 15
         Me.btnShowDownloads.Text = "Show Downloads"
         Me.ToolTip1.SetToolTip(Me.btnShowDownloads, "Geta all available formats of your url")
@@ -208,9 +221,10 @@ Partial Class FrmMain
         '
         Me.lblFormat.AutoSize = True
         Me.lblFormat.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.lblFormat.Location = New System.Drawing.Point(12, 139)
+        Me.lblFormat.Location = New System.Drawing.Point(15, 174)
+        Me.lblFormat.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFormat.Name = "lblFormat"
-        Me.lblFormat.Size = New System.Drawing.Size(82, 14)
+        Me.lblFormat.Size = New System.Drawing.Size(97, 18)
         Me.lblFormat.TabIndex = 12
         Me.lblFormat.Text = "Finished Label"
         '
@@ -222,9 +236,10 @@ Partial Class FrmMain
         '
         Me.lblPlayList.AutoSize = True
         Me.lblPlayList.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.lblPlayList.Location = New System.Drawing.Point(13, 164)
+        Me.lblPlayList.Location = New System.Drawing.Point(16, 205)
+        Me.lblPlayList.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPlayList.Name = "lblPlayList"
-        Me.lblPlayList.Size = New System.Drawing.Size(74, 14)
+        Me.lblPlayList.Size = New System.Drawing.Size(88, 18)
         Me.lblPlayList.TabIndex = 13
         Me.lblPlayList.Text = "Playlist Label"
         '
@@ -232,29 +247,31 @@ Partial Class FrmMain
         '
         Me.lblProgress.AutoEllipsis = True
         Me.lblProgress.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.lblProgress.Location = New System.Drawing.Point(13, 188)
+        Me.lblProgress.Location = New System.Drawing.Point(16, 235)
+        Me.lblProgress.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(577, 43)
+        Me.lblProgress.Size = New System.Drawing.Size(721, 54)
         Me.lblProgress.TabIndex = 14
         Me.lblProgress.Text = "Progress Label"
         '
         'chkMaxResolution
         '
         Me.chkMaxResolution.AutoSize = True
-        Me.chkMaxResolution.Location = New System.Drawing.Point(113, 242)
+        Me.chkMaxResolution.Location = New System.Drawing.Point(141, 317)
+        Me.chkMaxResolution.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.chkMaxResolution.Name = "chkMaxResolution"
-        Me.chkMaxResolution.Size = New System.Drawing.Size(115, 18)
+        Me.chkMaxResolution.Size = New System.Drawing.Size(136, 22)
         Me.chkMaxResolution.TabIndex = 16
         Me.chkMaxResolution.Text = "Get Best Quality"
         Me.chkMaxResolution.UseVisualStyleBackColor = True
         '
-        'frmMain
+        'FrmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(120.0!, 120.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(600, 276)
+        Me.ClientSize = New System.Drawing.Size(750, 363)
         Me.Controls.Add(Me.chkMaxResolution)
         Me.Controls.Add(Me.btnShowDownloads)
         Me.Controls.Add(Me.lblProgress)
@@ -275,7 +292,8 @@ Partial Class FrmMain
         Me.ForeColor = System.Drawing.Color.White
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "frmMain"
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Name = "FrmMain"
         Me.Text = "Form1"
         Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
