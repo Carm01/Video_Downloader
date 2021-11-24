@@ -273,6 +273,7 @@ Public Class FrmMain
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
             Dim sstrYTDL As String = Chr(34) & strYTDL & Chr(34)
+            'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
             strFileNAme = SGetFileName(strvalue).Trim()
@@ -313,6 +314,7 @@ Public Class FrmMain
 
         lblProgress.Text = "Download completed: " & strFileNAme
         EnableButtons()
+        'Cleanfolder()
         Dim strPath As String = My.Application.Info.DirectoryPath
         Dim strFileToDelete As String = strPath & "\" & strFileNAme
         Try
