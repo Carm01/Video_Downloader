@@ -1,4 +1,6 @@
-﻿Imports System.Text.RegularExpressions
+﻿Option Strict On
+Option Explicit On
+Imports System.Text.RegularExpressions
 Imports System.Threading
 
 Public Class FrmMain
@@ -21,6 +23,7 @@ Public Class FrmMain
         lblFormat.ResetText()
         lblPlayList.ResetText()
         lblProgress.ResetText()
+        GetApp() 'checks application string
         Me.Show()
         Application.DoEvents()
         txtURL.Focus()
@@ -41,7 +44,7 @@ Public Class FrmMain
     End Sub
 
     Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Close() ' closes form
+        Close()
     End Sub
 
     Private Sub BtnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
@@ -269,19 +272,19 @@ Public Class FrmMain
         Try
             lblPlayList.ResetText()
             Dim strSwitch As String = ""
-            strYTDL = Chr(34) & strYTDL & Chr(34)
+            Dim sstrYTDL As String = Chr(34) & strYTDL & Chr(34)
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
             Dim strvalue = txtURL.Text
             strFileNAme = SGetFileName(strvalue).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
-                Dim strMultiFiles As String() = strFileNAme.Split(vbLf)
+                Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
                 strFileNAme = GenerateFileName(strMultiFiles(0))
                 ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
                 lblPlayList.Visible = False
-                _RunCommandCom(strYTDL, strSwitch, strvalue, strFileNAme)
+                _RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
             Else
                 strFileNAme = GenerateFileName(strFileNAme)
                 If CheckPlaylist(strvalue) Then
@@ -329,8 +332,14 @@ Public Class FrmMain
     Private Function GenerateFileName(ByVal FileName As String) As String
         Dim strTempFIleName As String = Nothing
         If FileName.Length > 200 Then
-            Dim strNewFilename As String() = FileName.Split("-")
-            strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
+            If FileName.Contains("[") And FileName.Contains("]") Then
+                Dim strNewFileName As String = FileName.Split(CChar("["))(UBound(FileName.Split(CChar("[")))).Replace("]", "") ' had to add this is if yt-dlp was added and renamed to youtube-dl.exe
+                strTempFIleName = strNewFileName.Trim()
+            Else
+                Dim strNewFilename As String() = FileName.Split(CChar("-"))
+                strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
+            End If
+
             Return strTempFIleName.Replace(" ", "_")
         Else
             Return FileName.Replace(" ", "_")
@@ -417,9 +426,13 @@ Public Class FrmMain
                 ' ElseIf text.Contains("Make sure you are using the latest version; type  youtube-dl -U  to update") Then
                 ' MessageBox.Show("Please use the file menu and update youtube-dl.exe", "Update youtube-dl.exe", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
             Else
+                If text.Contains("(frag") Then
+                    text = text.Remove(text.IndexOf("(")).Trim()
+                End If
+
                 Dim Progress() As String = text.Split(CChar(" "))
 
-                If Progress.Length >= 9 And Progress.Length < 10 Then
+                If (Progress.Length >= 9 And Progress.Length < 10) Then
                     lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
                         & Progress(3) & " " & Progress(4) & " " & Progress(5) _
                         & " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
@@ -454,7 +467,12 @@ Public Class FrmMain
             If file.Contains(sfile) Then
                 Dim filename As String = System.IO.Path.GetFileName(file)
                 IDTAGS(filename, strPath)
-                My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
+                Try
+                    My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
+                Catch ex As Exception
+
+                End Try
+
             End If
         Next
     End Sub

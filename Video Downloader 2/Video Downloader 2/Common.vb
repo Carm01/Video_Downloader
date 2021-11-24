@@ -1,4 +1,6 @@
-﻿Module Common
+﻿Option Strict On
+Option Explicit On
+Module Common
     Public ScreenPos As Point
     Public strURL1 As String = FrmMain.txtURL.Text
     Public strMulti As String = ""
@@ -6,9 +8,9 @@
 
     Public strPublicUserName As String = Environment.UserName
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
+    Public strAppExe As String = Nothing
 
     Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
-        'Dim strURL As String = txtURL.Text
         If INput = " --version" Then
             strURL1 = ""
         End If
@@ -41,4 +43,15 @@
         Return sOutput
     End Function
 
+    Public Sub GetApp()
+        If My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\youtube-dl.exe") Then
+            strAppExe = "C:\ProgramData\Media Tools\youtube-dl.exe"
+            Exit Sub
+        ElseIf My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\yt-dlp.exe") Then
+            strAppExe = "C:\ProgramData\Media Tools\yt-dlp.exe"
+            Exit Sub
+        Else
+            MessageBox.Show("Please Make sure either:" & vbCrLf & "youtube-dl.exe or yt-dlp.exe are in the following directory:" & vbCrLf & "C:\ProgramData\Media Tools\")
+        End If
+    End Sub
 End Module

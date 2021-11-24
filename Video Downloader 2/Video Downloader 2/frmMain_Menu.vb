@@ -1,5 +1,6 @@
-﻿Public Class frmMain_Menu
-
+﻿Option Strict On
+Option Explicit On
+Public Class frmMain_Menu
     Private Sub FrmMain_Menu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Location = New Point(ScreenPos.X, ScreenPos.Y + 2) ' sets screen location to location of main form
         btnMenu.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
@@ -57,7 +58,6 @@
         If e.KeyCode = Keys.Escape Then Me.Close()
     End Sub
 End Class
-
 Public Class MyUtilities
     Shared Sub RunCommandCom(command As String, arguments As String, permanent As Boolean)
         command = """" & command & """"
