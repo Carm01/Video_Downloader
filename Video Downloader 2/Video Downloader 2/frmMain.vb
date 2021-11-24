@@ -1,5 +1,8 @@
-﻿Imports System.Text.RegularExpressions
+﻿Option Strict On
+Option Explicit On
+Imports System.Text.RegularExpressions
 Imports System.Threading
+
 
 Public Class FrmMain
     Dim mouseDwn As Boolean
@@ -277,7 +280,7 @@ Public Class FrmMain
             strFileNAme = SGetFileName(strvalue).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
-                Dim strMultiFiles As String() = strFileNAme.Split(vbLf)
+                Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
                 strFileNAme = GenerateFileName(strMultiFiles(0))
                 ' Dim gen = New MyDownloader()
                 OutPuts(strSwitch)
@@ -331,10 +334,10 @@ Public Class FrmMain
         Dim strTempFIleName As String = Nothing
         If FileName.Length > 200 Then
             If FileName.Contains("[") And FileName.Contains("]") Then
-                Dim strNewFileName As String = FileName.Split("[")(UBound(FileName.Split("["))).Replace("]", "") ' had to add this is if yt-dlp was added and renamed to youtube-dl.exe
+                Dim strNewFileName As String = FileName.Split(CChar("["))(UBound(FileName.Split(CChar("[")))).Replace("]", "") ' had to add this is if yt-dlp was added and renamed to youtube-dl.exe
                 strTempFIleName = strNewFileName.Trim()
             Else
-                Dim strNewFilename As String() = FileName.Split("-")
+                Dim strNewFilename As String() = FileName.Split(CChar("-"))
                 strTempFIleName = strNewFilename(UBound(strNewFilename)).Trim()
             End If
 

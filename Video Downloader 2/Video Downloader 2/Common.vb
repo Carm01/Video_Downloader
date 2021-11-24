@@ -1,4 +1,6 @@
-﻿Module Common
+﻿Option Strict On
+Option Explicit On
+Module Common
     Public ScreenPos As Point
     Public strURL1 As String = FrmMain.txtURL.Text
     Public strMulti As String = ""
