@@ -162,6 +162,13 @@ Public Class FrmMain
         Try
             If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
                 Dim sOutput As String = GetInformation(" -F ")
+                If sOutput = "Locked Tweet cannot download" Then
+                    cboFormats.Items.Add("Locked Tweet cannot download")
+                    cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
+                    cboFormats.Enabled = False
+                    btnDownload.Enabled = False
+                    Exit Sub
+                End If
                 'next two lines place two items at the top on the drop list
                 cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)")
                 cboFormats.Items.Add("Best Audio Only(file type could vary)")
@@ -332,7 +339,7 @@ Public Class FrmMain
     ' GenerateFileName Function basically says if the file name length in characters then break it apart
     Private Function GenerateFileName(ByVal FileName As String) As String
         Dim strTempFIleName As String = Nothing
-        If FileName.Length > 200 Then
+        If FileName.Length > 150 Then
             If FileName.Contains("[") And FileName.Contains("]") Then
                 Dim strNewFileName As String = FileName.Split(CChar("["))(UBound(FileName.Split(CChar("[")))).Replace("]", "") ' had to add this is if yt-dlp was added and renamed to youtube-dl.exe
                 strTempFIleName = strNewFileName.Trim()
@@ -478,7 +485,6 @@ Public Class FrmMain
         Next
     End Sub
 
-
     Private Sub CheckDestPath()
 
         If Not My.Computer.FileSystem.DirectoryExists(strMediaLocation) Then
@@ -565,7 +571,6 @@ Public Class FrmMain
         ScreenPos = PointToScreen(New Point(0, 0)) ' gets current screen location
         frmMultiInput.ShowDialog()
     End Sub
-
 
     Private Sub _RunCommandCom(ByVal strFFilePath As String, ByVal strSwitch As String, ByVal strvalue As String, ByVal strFileNAme As String)
         Dim psi As ProcessStartInfo

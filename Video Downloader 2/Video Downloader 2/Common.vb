@@ -39,6 +39,7 @@ Module Common
         Dim sOutput As String
         Using oStreamReader As System.IO.StreamReader = oProcess.StandardOutput
             sOutput = oStreamReader.ReadToEnd()
+            sOutput = _CheckLockedTweet(sOutput)
         End Using
         Return sOutput
     End Function
@@ -49,9 +50,18 @@ Module Common
             Exit Sub
         ElseIf My.Computer.FileSystem.FileExists("C:\ProgramData\Media Tools\youtube-dl.exe") Then
             strAppExe = "C:\ProgramData\Media Tools\youtube-dl.exe"
-                Exit Sub
-            Else
+            Exit Sub
+        Else
             MessageBox.Show("Please Make sure either:" & vbCrLf & "youtube-dl.exe or yt-dlp.exe are in the following directory:" & vbCrLf & "C:\ProgramData\Media Tools\")
         End If
     End Sub
+
+    Public Function _CheckLockedTweet(ByVal input As String) As String
+        If input.Length < 130 And input.Contains("twitter") Then
+            Return "Locked Tweet cannot download"
+        Else
+            Return input
+        End If
+    End Function
+
 End Module
