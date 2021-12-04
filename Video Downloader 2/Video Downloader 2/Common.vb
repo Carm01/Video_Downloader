@@ -57,7 +57,7 @@ Module Common
 
     Public Function _CheckLockedTweet(ByVal input As String) As String
         If input.Length < 130 And input.Contains("twitter") Then
-            Return "Locked Tweet cannot download"
+            Return "Locked Tweet cannot be downloaded"
         Else
             Return input
         End If
