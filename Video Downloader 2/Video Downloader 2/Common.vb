@@ -9,7 +9,6 @@ Module Common
     Public strPublicUserName As String = Environment.UserName
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
     Public strAppExe As String = Nothing
-
     Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
         If INput = " --version" Then
             strURL1 = ""
