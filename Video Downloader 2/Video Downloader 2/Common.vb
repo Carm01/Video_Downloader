@@ -18,8 +18,8 @@ Module Common
 
     End Function
 
-    Public Function SGetFileName(ByRef INput As String) As String ' gets information presented in command line output if needed
-        Dim sOutput As String = Info_(strYTDL, " --get-filename " & INput)
+    Public Function SGetFileName(ByRef INput As String, ByVal switch As string) As String ' gets information presented in command line output if needed
+        Dim sOutput As String = Info_(strYTDL, " --get-filename " & INput & " " & switch )
         Return sOutput
 
     End Function

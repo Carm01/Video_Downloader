@@ -211,6 +211,7 @@ Public Class FrmMain
         If switch.Contains("vimeo") Then Return True
         If switch.Contains("resolution note") Then Return True
         If switch.Contains("[") Or switch.Contains("]") Then Return True
+        If switch.Contains("video only") Then Return True
         Return False
     End Function
 
@@ -283,8 +284,9 @@ Public Class FrmMain
             Dim sstrYTDL As String = Chr(34) & strYTDL & Chr(34)
             'Dim strvalue = "some video link" ' used for testing 
             ' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
+            OutPuts(strSwitch)
             Dim strvalue = txtURL.Text
-            strFileNAme = SGetFileName(strvalue).Trim()
+            strFileNAme = SGetFileName(strvalue, strSwitch).Trim()
             ' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
             If strFileNAme.Contains(vbLf) Then
                 Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
@@ -377,7 +379,7 @@ Public Class FrmMain
         Dim strPlaylist1 As String = Chr(34) & strPlaylist(0) & "&" & strPlaylist(1) & Chr(34)
         Return strPlaylist1
     End Function
-    Private Sub OutPuts(ByRef switch As String)
+    Public Sub OutPuts(ByRef switch As String)
         ' Choose switch based off of pull down
         ' best video and audio in mp4 always = 
         'https://www.reddit.com/r/youtubedl/comments/f2dtlm/why_is_my_youtube_dl_downloading_videos_as_an_mkv/
@@ -413,7 +415,7 @@ Public Class FrmMain
         End Select
         ' convert webm to best ogg -> ffmpeg -i "Let There Be House (Hard Mix)-moyuA5PMGeU.webm" -q:a 10 "Let There Be House (Hard Mix)-moyuA5PMGeU.ogg"
     End Sub
-    Public Sub Sync_Output(ByVal text As String)
+    Private Sub Sync_Output(ByVal text As String)
 
         Try
             text = text.Trim()
