@@ -292,21 +292,21 @@ Public Class FrmMain
                 Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
                 strFileNAme = GenerateFileName(strMultiFiles(0))
                 ' Dim gen = New MyDownloader()
-                OutPuts(strSwitch)
+                'OutPuts(strSwitch)
                 lblPlayList.Visible = False
-                _RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
+                '_RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
             Else
                 strFileNAme = GenerateFileName(strFileNAme)
                 If CheckPlaylist(strvalue) Then
                     strvalue = GenerateCorretPlaylist(strvalue)
-                    OutPuts(strSwitch)
+                   ' OutPuts(strSwitch)
                 Else
-                    OutPuts(strSwitch)
+                    'OutPuts(strSwitch)
                 End If
                 'Dim gen = New MyDownloader()
-                _RunCommandCom(strYTDL, strSwitch, strvalue, strFileNAme)
+                '_RunCommandCom(strYTDL, strSwitch, strvalue, strFileNAme)
             End If
-
+            _RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
 
             ' This is how to invoke the command via a New Class
             'Dim gen = New MyDownloader()
