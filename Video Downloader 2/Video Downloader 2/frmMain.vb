@@ -25,6 +25,7 @@ Public Class FrmMain
 		lblProgress.ResetText()
 		GetApp() 'checks application string
 		strYTDL = strAppExe
+		lblVersion.Text = "Video Downloader " & Application.ProductVersion
 		Me.Show()
 		Application.DoEvents()
 		txtURL.Focus()
@@ -189,7 +190,7 @@ Public Class FrmMain
 				cboFormats.Items.Add("Download entire play list audio in best m4a format")
 				'
 			End If
-			If chkMaxResolution.Checked Then
+			If tglMaxResolution.Checked Then
 				cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
 				lblFormat.Text = "Automatically selected Maximum Quality"
 			Else
@@ -249,7 +250,7 @@ Public Class FrmMain
 	End Sub
 
 	Private Sub SMaxResolution()
-		If chkMaxResolution.Checked Then
+		If tglMaxResolution.Checked Then
 			btnDownload.Enabled = True
 			btnFormat.Enabled = False
 		Else
@@ -596,6 +597,13 @@ Public Class FrmMain
 		cmd.WaitForExit()
 
 	End Sub
+
+	Private Sub tglMaxResolution_CheckedChanged(sender As Object, e As EventArgs) Handles tglMaxResolution.CheckedChanged
+		If tglMaxResolution.Checked Then lblMaxRes.Text = "Max Format"
+		If Not tglMaxResolution.Checked Then lblMaxRes.Text = "Select Format"
+	End Sub
+
+
 
 	'Private Sub chkMaxResolution_CheckedChanged(sender As Object, e As EventArgs) Handles chkMaxResolution.CheckedChanged
 	'    If chkMaxResolution.Checked Then
