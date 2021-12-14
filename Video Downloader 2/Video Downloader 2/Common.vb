@@ -9,21 +9,21 @@ Module Common
     Public strPublicUserName As String = Environment.UserName
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
     Public strAppExe As String = Nothing
-    Public Function GetInformation(ByRef INput As String, Optional ByVal URL As String = "") As String ' gets information presented in command line output if needed
-        Dim sOutput As String = Info_(strYTDL, INput & URL)
+    Public Function GetInformation(ByRef switch As String, Optional ByVal URL As String = "") As String ' gets information presented in command line output if needed
+        Dim sOutput As String = Info_(strYTDL, switch, URL)
         Return sOutput
 
     End Function
 
-    Public Function SGetFileName(ByRef INput As String, ByVal switch As string) As String ' gets information presented in command line output if needed
-        Dim sOutput As String = Info_(strYTDL, " --get-filename " & INput & " " & switch )
+    Public Function SGetFileName(ByRef strURL As String, ByVal switch As String) As String ' gets information presented in command line output if needed
+        Dim sOutput As String = Info_(strYTDL, " --get-filename " & switch, strURL)
         Return sOutput
 
     End Function
 
-    Public Function Info_(ByVal strSupportFiles As String, ByVal variable As String) As String
+    Public Function Info_(ByVal strSupportFiles As String, ByVal switch As String, Optional ByVal URL As String = "") As String
         Dim oProcess As New Process()
-        Dim oStartInfo As New ProcessStartInfo(strSupportFiles, variable)
+        Dim oStartInfo As New ProcessStartInfo(strSupportFiles, switch & URL)
         oStartInfo.UseShellExecute = False
         oStartInfo.RedirectStandardOutput = True
         Dim ShowWindow As Boolean = False

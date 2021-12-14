@@ -286,8 +286,8 @@ Public Class FrmMain
 			'Dim strvalue = "some video link" ' used for testing 
 			' https://www.youtube.com/watch?v=j85ZTNrQnuY&list=RDCMUCRNXHMkEZ2lWsbbVBM5p7mg&start_radio=1
 			OutPuts(strSwitch)
-			Dim strvalue = txtURL.Text
-			strFileNAme = SGetFileName(strvalue, strSwitch).Trim()
+			Dim strURL = txtURL.Text
+			strFileNAme = SGetFileName(strURL, strSwitch).Trim()
 			' IF There are some cases where one video looks like multiple videos of same quality, in that case it will grab the first one
 			If strFileNAme.Contains(vbLf) Then
 				Dim strMultiFiles As String() = strFileNAme.Split(CChar(vbLf))
@@ -298,14 +298,14 @@ Public Class FrmMain
 				'_RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
 			Else
 				strFileNAme = GenerateFileName(strFileNAme)
-				If CheckPlaylist(strvalue) Then
-					strvalue = GenerateCorretPlaylist(strvalue)
+				If CheckPlaylist(strURL) Then
+					strURL = GenerateCorretPlaylist(strURL)
 
 				End If
 				'Dim gen = New MyDownloader()
 			End If
 
-			_RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
+			_RunCommandCom(sstrYTDL, strSwitch, strURL, strFileNAme)
 
 			' This is how to invoke the command via a New Class
 			'Dim gen = New MyDownloader()
