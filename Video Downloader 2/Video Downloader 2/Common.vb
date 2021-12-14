@@ -2,18 +2,15 @@
 Option Explicit On
 Module Common
     Public ScreenPos As Point
-    Public strURL1 As String = FrmMain.txtURL.Text
+    'Public strURL1 As String = FrmMain.txtURL.Text
     Public strMulti As String = ""
     Public strYTDL As String = String.Empty ' location of support files
 
     Public strPublicUserName As String = Environment.UserName
     Public strMediaLocation As String = "C:\Users\" & strPublicUserName & "\Documents\Media Downloader\"
     Public strAppExe As String = Nothing
-    Public Function GetInformation(ByRef INput As String) As String ' gets information presented in command line output if needed
-        If INput = " --version" Then
-            strURL1 = ""
-        End If
-        Dim sOutput As String = Info_(strYTDL, INput & strURL1)
+    Public Function GetInformation(ByRef INput As String, Optional ByVal URL As String = "") As String ' gets information presented in command line output if needed
+        Dim sOutput As String = Info_(strYTDL, INput & URL)
         Return sOutput
 
     End Function

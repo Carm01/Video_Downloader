@@ -159,10 +159,10 @@ Public Class FrmMain
 	End Sub
 
 	Private Sub BckGetFormats_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bckGetFormats.DoWork
-		strURL1 = txtURL.Text.Trim()
+		Dim strURL1 As String = txtURL.Text.Trim()
 		Try
 			If Not txtURL.Text.Contains("&list=") Then ' if not a playlist then
-				Dim sOutput As String = GetInformation(" -F ")
+				Dim sOutput As String = GetInformation(" -F ", strURL1)
 				If sOutput = "Locked Tweet cannot download" Then
 					cboFormats.Items.Add("Locked Tweet cannot download")
 					cboFormats.SelectedIndex = (cboFormats.Items.Count - 1)
@@ -603,7 +603,15 @@ Public Class FrmMain
 		If Not tglMaxResolution.Checked Then lblMaxRes.Text = "Select Format"
 	End Sub
 
-
+	Private Sub lblMaxRes_MouseClick(sender As Object, e As MouseEventArgs) Handles lblMaxRes.MouseClick
+		If Not tglMaxResolution.Checked And lblMaxRes.Text = "Select Format" Then
+			tglMaxResolution.Checked = True
+			Refresh()
+		Else
+			tglMaxResolution.Checked = False
+			Refresh()
+		End If
+	End Sub
 
 	'Private Sub chkMaxResolution_CheckedChanged(sender As Object, e As EventArgs) Handles chkMaxResolution.CheckedChanged
 	'    If chkMaxResolution.Checked Then
