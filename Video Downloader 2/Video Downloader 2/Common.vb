@@ -16,6 +16,9 @@ Module Common
     End Function
 
     Public Function SGetFileName(ByRef strURL As String, ByVal switch As String) As String ' gets information presented in command line output if needed
+        'If switch.Contains(" --extract-audio --audio-format aac --audio-quality 256 ") Then
+        '    switch = " --get-filename bestaudio* "
+        'End If
         Dim sOutput As String = Info_(strYTDL, " --get-filename " & switch, strURL)
         Return sOutput
 

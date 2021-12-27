@@ -172,9 +172,9 @@ Public Class FrmMain
 				End If
 				'next two lines place two items at the top on the drop list
 				cboFormats.Items.Add("Best Quality Video & Audio(file format could vary)")
-				cboFormats.Items.Add("Best Audio Only(file type could vary)")
+				'cboFormats.Items.Add("Best Audio Only(file type could vary)")
 				cboFormats.Items.Add("aac Audio Only")
-				cboFormats.Items.Add("vorbis Audio Only")
+				'cboFormats.Items.Add("vorbis Audio Only")
 				Dim strINput As String() = sOutput.Split(CType(vbCrLf, Char())) ' Creates the new array to cycle through
 				cboFormats.MaxDropDownItems = strINput.Length
 				For i = 0 To strINput.Length - 1
@@ -298,6 +298,7 @@ Public Class FrmMain
 				'_RunCommandCom(sstrYTDL, strSwitch, strvalue, strFileNAme)
 			Else
 				strFileNAme = GenerateFileName(strFileNAme)
+				strFileNAme = _IfAudio(strSwitch, strFileNAme)
 				If CheckPlaylist(strURL) Then
 					strURL = GenerateCorretPlaylist(strURL)
 
@@ -336,6 +337,15 @@ Public Class FrmMain
 		End Try
 
 	End Sub
+
+	Private Function _IfAudio(ByVal strSwitch As String, ByVal strFilename As String) As String
+		If strSwitch = " --extract-audio --audio-format aac --audio-quality 256 " Then
+			Dim a As String() = strFilename.Split(CChar("."))
+			strFilename = a(0) & ".aac"
+		End If
+		Return strFilename
+	End Function
+
 
 	' GenerateFileName Function basically says if the file name length in characters then break it apart
 	Private Function GenerateFileName(ByVal FileName As String) As String
@@ -399,13 +409,13 @@ Public Class FrmMain
 			Case "Download entire play list audio in best m4a format"
 				switch = " --ignore-errors --format bestaudio --extract-audio --audio-format aac" _
 					& " --audio-quality 0 --output ""%(title)s.%(ext)s"" --yes-playlist "
-			Case "Best Audio Only(file type could vary)"
-				switch = " -f bestaudio "
+			'Case "Best Audio Only(file type could vary)"
+			'	switch = " -f bestaudio "
 				'switch = " --extract-audio --audio-format mp3 --audio-quality 0 "
 			Case "aac Audio Only"
 				switch = " --extract-audio --audio-format aac --audio-quality 256 "
-			Case "vorbis Audio Only"
-				switch = " -f bestaudio -x "
+			'Case "vorbis Audio Only"
+			'	switch = " -f bestaudio -x "
 			Case "Best Quality Video & Audio(file format could vary)"
 				switch = " "
 			Case Else
