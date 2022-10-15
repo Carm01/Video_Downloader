@@ -306,6 +306,16 @@ Public Class FrmMain
 				'Dim gen = New MyDownloader()
 			End If
 
+			Dim checkFileExistName As String = strFileNAme.Replace("_", " ")
+			If My.Computer.FileSystem.FileExists(strMediaLocation & checkFileExistName) Then
+				Dim result = MessageBox.Show("The file " & strFileNAme & " seems to exist already." & vbCrLf & "Do you wish to delete the current file and download it again?", "Duplicate file", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)
+				If result = DialogResult.No Then
+					Exit Sub
+				ElseIf result = DialogResult.Yes Then
+					My.Computer.FileSystem.DeleteFile(strMediaLocation & checkFileExistName)
+				End If
+			End If
+
 			_RunCommandCom(sstrYTDL, strSwitch, strURL, strFileNAme)
 
 			' This is how to invoke the command via a New Class
@@ -450,22 +460,33 @@ Public Class FrmMain
 				End If
 
 				Dim Progress() As String = text.Split(CChar(" "))
+				Dim a As String = Nothing
+				Dim match As Match = Nothing
+				For i = 0 To UBound(Progress) - 1
+					match = Regex.Match(Progress(i), "[a-z%]", RegexOptions.IgnoreCase)
+					If match.Success Then
+						If Not Progress(i).Contains("[download]") Then
+							a = a & Progress(i) & " "
+						End If
+					End If
+				Next
 
-				If (Progress.Length >= 9 And Progress.Length < 10) Then
-					lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
-						& Progress(3) & " " & Progress(4) & " " & Progress(5) _
-						& " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
-				ElseIf Progress.Length = 10 Then
-					lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
-						& " " & Progress(4) & " " & Progress(5) & " " & Progress(6) & " " _
-						& Progress(7) & " " & Progress(8) & " " & Progress(9) ' already downloaded
-				ElseIf Progress.Length = 6 Then
-					lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
-						& " " & Progress(4) & " " & Progress(5) ' completed @100%
-				Else
-					' lblOutput.Text = text
-				End If
-				lblProgress.Text = lblProgress.Text.Trim()
+				'If (Progress.Length >= 9 And Progress.Length < 10) Then
+				'	lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
+				'		& Progress(3) & " " & Progress(4) & " " & Progress(5) _
+				'		& " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
+				'ElseIf Progress.Length = 10 Then
+				'	lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
+				'		& " " & Progress(4) & " " & Progress(5) & " " & Progress(6) & " " _
+				'		& Progress(7) & " " & Progress(8) & " " & Progress(9) ' already downloaded
+				'ElseIf Progress.Length = 6 Then
+				'	lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
+				'		& " " & Progress(4) & " " & Progress(5) ' completed @100%
+				'Else
+				'	' lblOutput.Text = text
+				'End If
+				lblProgress.Text = a.Trim()
+				a = ""
 			End If
 
 		Catch ex As Exception
@@ -484,16 +505,18 @@ Public Class FrmMain
 		CheckDestPath() ' checks for destination folder exists
 		For Each file As String In files
 			If file.Contains(sfile) Then
-				Dim filename As String = System.IO.Path.GetFileName(file)
-				IDTAGS(filename, strPath)
-				Try
-					My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
-				Catch ex As Exception
+				Dim checkFileExistName As String = sfile.Replace("_", " ")
+				If Not My.Computer.FileSystem.FileExists(strMediaLocation & checkFileExistName) Then
+					Dim filename As String = System.IO.Path.GetFileName(file)
+					IDTAGS(filename, strPath)
+					Try
+						My.Computer.FileSystem.RenameFile(strMediaLocation & sfile, sfile.Replace("_", " "))
+					Catch ex As Exception
 
-				End Try
-
+					End Try
+				End If
 			End If
-		Next
+        Next
 	End Sub
 
 	Private Sub CheckDestPath()
