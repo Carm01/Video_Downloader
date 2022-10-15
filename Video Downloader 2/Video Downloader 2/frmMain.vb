@@ -471,20 +471,6 @@ Public Class FrmMain
 					End If
 				Next
 
-				'If (Progress.Length >= 9 And Progress.Length < 10) Then
-				'	lblProgress.Text = Progress(1) & " " & Progress(2) & " " _
-				'		& Progress(3) & " " & Progress(4) & " " & Progress(5) _
-				'		& " " & Progress(6) & " " & Progress(7) & " " & Progress(8) ' download progress
-				'ElseIf Progress.Length = 10 Then
-				'	lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
-				'		& " " & Progress(4) & " " & Progress(5) & " " & Progress(6) & " " _
-				'		& Progress(7) & " " & Progress(8) & " " & Progress(9) ' already downloaded
-				'ElseIf Progress.Length = 6 Then
-				'	lblProgress.Text = Progress(1) & " " & Progress(2) & " " & Progress(3) _
-				'		& " " & Progress(4) & " " & Progress(5) ' completed @100%
-				'Else
-				'	' lblOutput.Text = text
-				'End If
 				lblProgress.Text = a.Trim()
 				a = ""
 			End If
