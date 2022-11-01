@@ -35,7 +35,7 @@ Partial Class frmMain_Menu
         Me.btnMenu.ForeColor = System.Drawing.Color.White
         Me.btnMenu.Location = New System.Drawing.Point(2, 2)
         Me.btnMenu.Name = "btnMenu"
-        Me.btnMenu.Size = New System.Drawing.Size(186, 23)
+        Me.btnMenu.Size = New System.Drawing.Size(247, 28)
         Me.btnMenu.TabIndex = 0
         Me.btnMenu.Text = "Settings Menu (press to close)[Esc]"
         Me.btnMenu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -49,7 +49,7 @@ Partial Class frmMain_Menu
         Me.btnUpdateYouTubeDL.ForeColor = System.Drawing.Color.White
         Me.btnUpdateYouTubeDL.Location = New System.Drawing.Point(2, 27)
         Me.btnUpdateYouTubeDL.Name = "btnUpdateYouTubeDL"
-        Me.btnUpdateYouTubeDL.Size = New System.Drawing.Size(186, 23)
+        Me.btnUpdateYouTubeDL.Size = New System.Drawing.Size(247, 28)
         Me.btnUpdateYouTubeDL.TabIndex = 1
         Me.btnUpdateYouTubeDL.Text = "Update Youtube-DL"
         Me.btnUpdateYouTubeDL.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -60,10 +60,10 @@ Partial Class frmMain_Menu
         '
         'frmMain_Menu
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(190, 96)
+        Me.ClientSize = New System.Drawing.Size(255, 96)
         Me.Controls.Add(Me.btnUpdateYouTubeDL)
         Me.Controls.Add(Me.btnMenu)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))

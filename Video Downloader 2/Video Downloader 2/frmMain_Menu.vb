@@ -5,6 +5,11 @@ Public Class frmMain_Menu
         Location = New Point(ScreenPos.X, ScreenPos.Y + 2) ' sets screen location to location of main form
         btnMenu.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
         btnUpdateYouTubeDL.FlatAppearance.MouseOverBackColor = Color.DarkSlateBlue
+        If strAppExe.Contains("yt-dlp") Then
+            btnUpdateYouTubeDL.Text = "Update yt-dlp.exe"
+        Else
+            btnUpdateYouTubeDL.Text = "Update Youtube-dl.exe"
+        End If
     End Sub
 
     Private Sub frmMain_Menu_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
@@ -26,17 +31,22 @@ Public Class frmMain_Menu
         btnUpdateYouTubeDL.Enabled = False
 
         Try
-
+            Dim str_Versions As String = Nothing
+            If strAppExe.Contains("yt-dlp") Then
+                str_Versions = "yt-dlp.exe"
+            Else
+                str_Versions = "Youtube-dl.exe"
+            End If
             Dim sOutput As String = GetInformation(" --version").Trim()
-            Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your youtube-dl.exe?",
-                                         "Youtube-dl Version", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your " & str_Versions & "?",
+                                         str_Versions, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
             If result = DialogResult.Yes Then
                 FrmMain.btnSettings.Enabled = False
                 FrmMain.btnFormat.Enabled = False
                 btnUpdateYouTubeDL.Enabled = False
                 MyUtilities.RunCommandCom(strYTDL, " --update", False)
-                Threading.Thread.Sleep(3000)
+                Threading.Thread.Sleep(2500)
             Else
                 btnUpdateYouTubeDL.Enabled = True
             End If

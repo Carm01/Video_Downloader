@@ -152,6 +152,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Toggle.Designer.vb">
+      <DependentUpon>Toggle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Toggle.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmMain.resx">
@@ -187,7 +193,6 @@
     <None Include="Resources\Very-Basic-Settings-Filled-icon24x24.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Oxygen-Icons.org-Oxygen-Actions-media-playback-start.ico" />
     <Content Include="Pelfusion-Flat-Folder-Download-Folder.ico" />
   </ItemGroup>
   <ItemGroup>
