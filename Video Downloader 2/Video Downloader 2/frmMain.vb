@@ -211,7 +211,8 @@ Public Class FrmMain
 		If switch = "" Then Return True
 		If switch.Contains("vimeo") Then Return True
 		If switch.Contains("resolution note") Then Return True
-		If switch.Contains("[") Or switch.Contains("]") Then Return True
+		'If switch.Contains("[") Or switch.Contains("]") Then Return True
+		If switch.Contains("storyboard") Then Return True
 		If switch.Contains("video only") Then Return True
 		Return False
 	End Function
