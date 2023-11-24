@@ -279,10 +279,10 @@ Public Class FrmMain
         lblPlayList.ResetText()
         lblProgress.ResetText()
         lblFormat.ResetText()
+        Me.ActiveControl = Panel1
         txtURL.Focus()
         'sMaxResolution()
         lblPlayList.Enabled = True
-        Me.ActiveControl = Panel1
     End Sub
 
     Private Sub BckGetFormats_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bckGetFormats.RunWorkerCompleted
