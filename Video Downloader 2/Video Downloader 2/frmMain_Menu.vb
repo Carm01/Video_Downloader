@@ -1,5 +1,7 @@
 ﻿Option Strict On
 Option Explicit On
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+
 Public Class frmMain_Menu
     Private Sub FrmMain_Menu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Location = New Point(ScreenPos.X, ScreenPos.Y + 2) ' sets screen location to location of main form
@@ -28,7 +30,11 @@ Public Class frmMain_Menu
         FrmMain.lblPlayList.ResetText()
         FrmMain.lblProgress.ResetText()
         FrmMain.lblFormat.ResetText()
-        btnUpdateYouTubeDL.Enabled = False
+        Me.Invoke(Sub()
+                      'update controls here
+                      btnUpdateYouTubeDL.Enabled = False
+                  End Sub)
+
 
         Try
             Dim str_Versions As String = Nothing
@@ -38,18 +44,21 @@ Public Class frmMain_Menu
                 str_Versions = "Youtube-dl.exe"
             End If
             Dim sOutput As String = GetInformation(" --version").Trim()
-            Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your " & str_Versions & "?",
-                                         str_Versions, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-            If result = DialogResult.Yes Then
-                FrmMain.btnSettings.Enabled = False
-                FrmMain.btnFormat.Enabled = False
-                btnUpdateYouTubeDL.Enabled = False
-                MyUtilities.RunCommandCom(strYTDL, " --update", False)
-                Threading.Thread.Sleep(2500)
-            Else
-                btnUpdateYouTubeDL.Enabled = True
-            End If
+            Me.Invoke(Sub()
+                          'update controls here
+                          Dim result = MessageBox.Show("Version: " & sOutput & vbCrLf & "Do You wish to check and update your " & str_Versions & "?", str_Versions, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                          If result = DialogResult.Yes Then
+                              FrmMain.btnSettings.Enabled = False
+                              FrmMain.btnFormat.Enabled = False
+                              btnUpdateYouTubeDL.Enabled = False
+                              MyUtilities.RunCommandCom(strYTDL, " --update", False)
+                              Threading.Thread.Sleep(2500)
+                          Else
+                              btnUpdateYouTubeDL.Enabled = True
+                          End If
+                      End Sub)
+
         Catch ex As Exception
             MessageBox.Show(ex.Message & vbCrLf & " and please Check your Internet connection")
         End Try
